@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../images/white-logo.png';
 
 const styles = {
@@ -52,4 +52,34 @@ const Navbar = () => (
   </div>
 );
 
-export default Navbar;
+const Menu = () => null;
+
+const getWindowDimensions = () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+};
+
+const SizeChecker = () => {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const { width } = windowDimensions;
+
+  if (width < 768) return <Menu />;
+  return <Navbar />;
+};
+
+export default SizeChecker;
