@@ -5,7 +5,7 @@ const ReactHelmet = () => (
   <Helmet>
     <meta charSet='utf-8' />
     <title>Potimarrants</title>
-    <link rel='canonical' href='http://potimarrants.fr/' />
+    <link rel='canonical' href='https://potimarrants.fr/' />
   </Helmet>
 );
 
