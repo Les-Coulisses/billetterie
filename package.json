@@ -1,0 +1,57 @@
+{
+  "name": "potimarrants",
+  "private": true,
+  "description": "Potimarrants",
+  "version": "0.0.1",
+  "author": "Nathan Douillet <douilletnathan@gmail.com>",
+  "main": "gatsby-config.js",
+  "dependencies": {
+    "animejs": "^3.0.1",
+    "antd": "^4.0.4",
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.13.6",
+    "gatsby-image": "^2.2.4",
+    "gatsby-plugin-manifest": "^2.2.1",
+    "gatsby-plugin-offline": "^2.2.1",
+    "gatsby-plugin-page-creator": "^2.1.2",
+    "gatsby-plugin-react-helmet": "^3.1.0",
+    "gatsby-plugin-sass": "^2.1.0",
+    "gatsby-plugin-sharp": "^2.2.3",
+    "gatsby-source-filesystem": "^2.1.2",
+    "gatsby-source-prismic-graphql": "^3.3.1",
+    "gatsby-transformer-sharp": "^2.2.1",
+    "jest": "^24.9.0",
+    "node-sass": "^4.12.0",
+    "prismic-reactjs": "^1.1.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-theme"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "jest src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+  },
+  "bugs": {
+    "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "jest": {
+    "verbose": true
+  }
+}
