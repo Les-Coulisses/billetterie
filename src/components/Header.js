@@ -1,11 +1,9 @@
 import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
-// import header from '../images/header.jpg';
 
 const styles = {
   image: {
-    // position: 'fixed',
     maxHeight: '100vh',
     height: '120%',
     overflow: 'hidden',
@@ -31,7 +29,8 @@ const Header = () => {
     <Img
       style={styles.image}
       fluid={data.file.childImageSharp.fluid}
-      fadeIn={false}
+      // fadeIn={false}
+      durationFadeIn={10000}
       draggable={false}
     />
   );
