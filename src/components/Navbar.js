@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../images/white-logo.png';
+import { useStaticQuery, graphql } from 'gatsby';
+import Img from 'gatsby-image';
 
 const styles = {
   navbar: {
@@ -14,43 +15,61 @@ const styles = {
     color: 'white',
     position: 'absolute',
     top: 0,
-    userSelect: 'none'
+    userSelect: 'none',
   },
   divider: {
     flexGrow: 1,
     height: 3,
     borderTop: 'solid 1px rgba(192, 192, 192, 0.35)',
-    borderBottom: 'solid 1px rgba(192, 192, 192, 0.35)'
+    borderBottom: 'solid 1px rgba(192, 192, 192, 0.35)',
   },
   verticalDivider: {
     height: '20%',
-    borderRight: 'solid 1px rgba(192, 192, 192, 0.35)'
+    borderRight: 'solid 1px rgba(192, 192, 192, 0.35)',
   },
   items: {
     width: 1000,
     height: '100%',
     display: 'flex',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  logo: { maxHeight: '80%' }
 };
 
-const Navbar = () => (
-  <div style={styles.navbar}>
-    <div style={styles.divider} />
-    <div style={styles.verticalDivider} />
-    <div style={styles.items}>
-      <a>A propos</a>
-      <a>Blog</a>
-      <img style={styles.logo} src={logo} />
-      <a>Contact</a>
-      <a>Réserver</a>
+const Navbar = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      file(name: { eq: "white-logo" }) {
+        childImageSharp {
+          fixed(height: 66) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+  `);
+
+  return (
+    <div style={styles.navbar}>
+      <div style={styles.divider} />
+      <div style={styles.verticalDivider} />
+      <div style={styles.items}>
+        <a>A propos</a>
+        <a>Blog</a>
+        <Img
+          style={styles.image}
+          fixed={data.file.childImageSharp.fixed}
+          fadeIn={false}
+          draggable={false}
+        />
+        <a>Contact</a>
+        <a>Réserver</a>
+      </div>
+      <div style={styles.verticalDivider} />
+      <div style={styles.divider} />
     </div>
-    <div style={styles.verticalDivider} />
-    <div style={styles.divider} />
-  </div>
-);
+  );
+};
 
 const Menu = () => null;
 
@@ -58,7 +77,7 @@ const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 };
 
