@@ -23,14 +23,13 @@ const Header = () => {
       }
     }
   `);
-  console.log(data.file.childImageSharp.fluid);
 
   return (
     <Img
       style={styles.image}
       fluid={data.file.childImageSharp.fluid}
       // fadeIn={false}
-      durationFadeIn={2000}
+      durationFadeIn={1000}
       draggable={false}
     />
   );

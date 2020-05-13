@@ -4,19 +4,19 @@ module.exports = {
     {
       resolve: `gatsby-plugin-page-creator`,
       options: {
-        path: `${__dirname}/src/pages`
-      }
+        path: `${__dirname}/src/pages`,
+      },
     },
     {
       resolve: `gatsby-plugin-sass`,
       options: {
-        precision: 8
-      }
+        precision: 8,
+      },
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: "gatsby-plugin-manifest",
       options: {
         name: `Potimarrants`,
         short_name: `Poti`,
@@ -24,15 +24,32 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `${__dirname}/src/images/favicon.png`
-      }
+        icon: `${__dirname}/src/images/favicon.png`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/images/`,
-        name: `images`
-      }
-    }
-  ]
+        name: `images`,
+      },
+    },
+    {
+      resolve: "gatsby-source-apiserver",
+      options: {
+        url: "https://les-coulisses.touchard.bzh/api/public/shows",
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          Origin: "http://localhost:8000",
+        },
+        typePrefix: "internal__",
+        name: `shows`,
+        params: {
+          results: 10,
+        },
+        verboseOutput: true,
+      },
+    },
+  ],
 };
