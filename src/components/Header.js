@@ -1,12 +1,12 @@
-import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import Img from "gatsby-image";
 
 const styles = {
   image: {
-    maxHeight: '100vh',
-    height: '120%',
-    overflow: 'hidden',
+    maxHeight: "100vh",
+    height: "120%",
+    overflow: "hidden",
     zIndex: -1,
   },
 };
@@ -30,7 +30,7 @@ const Header = () => {
       style={styles.image}
       fluid={data.file.childImageSharp.fluid}
       // fadeIn={false}
-      durationFadeIn={10000}
+      durationFadeIn={2000}
       draggable={false}
     />
   );

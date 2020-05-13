@@ -1,38 +1,42 @@
-import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import React from "react";
+import { useStaticQuery, graphql, Link } from "gatsby";
+import Img from "gatsby-image";
 
 const styles = {
   navbar: {
     height: 77,
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     fontFamily: "'Source Sans Pro', sans-serif",
     fontWeight: 300,
-    color: 'white',
-    position: 'absolute',
+    color: "white",
+    position: "absolute",
     top: 0,
-    userSelect: 'none',
+    userSelect: "none",
   },
   divider: {
     flexGrow: 1,
     height: 3,
-    borderTop: 'solid 1px rgba(192, 192, 192, 0.35)',
-    borderBottom: 'solid 1px rgba(192, 192, 192, 0.35)',
+    borderTop: "solid 1px rgba(192, 192, 192, 0.35)",
+    borderBottom: "solid 1px rgba(192, 192, 192, 0.35)",
   },
   verticalDivider: {
-    height: '20%',
-    borderRight: 'solid 1px rgba(192, 192, 192, 0.35)',
+    height: "20%",
+    borderRight: "solid 1px rgba(192, 192, 192, 0.35)",
   },
   items: {
     width: 1000,
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    height: "100%",
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
   },
 };
 
@@ -54,16 +58,16 @@ const Navbar = () => {
       <div style={styles.divider} />
       <div style={styles.verticalDivider} />
       <div style={styles.items}>
-        <a>A propos</a>
-        <a>Blog</a>
+        <Link style={styles.link}>A propos</Link>
+        <Link style={styles.link}>Blog</Link>
         <Img
           style={styles.image}
           fixed={data.file.childImageSharp.fixed}
           fadeIn={false}
           draggable={false}
         />
-        <a>Contact</a>
-        <a>Réserver</a>
+        <Link style={styles.link}>Contact</Link>
+        <Link style={styles.link}>Réserver</Link>
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
