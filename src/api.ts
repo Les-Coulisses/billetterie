@@ -2,10 +2,7 @@ import axios from "axios";
 import { API_URL } from "./env";
 
 export type ShowDto = {
-  id: string;
-  slug: string;
-  title: string;
-  cover: FileDto;
+  id: number;
 };
 
 export type FileDto = {
@@ -18,7 +15,8 @@ export type FileDto = {
 export const getShows = (
   successCallBack: (shows: [ShowDto]) => void
 ): Promise<void | [ShowDto]> => {
-  return axios.get(API_URL + "/shows").then((response) => {
+  console.log("test response");
+  return axios.get(API_URL + "/shows-id").then((response) => {
     successCallBack(response.data);
   });
 };

@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import Img from "gatsby-image";
 import { getShows } from "../api";
+import ModalOrder from "./ModalOrder";
 
-const styles: { [name: string]: React.CSSProperties } = {
+const styles = {
   navbar: {
     height: 77,
     width: "100%",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     fontFamily: "'Source Sans Pro', sans-serif",
@@ -43,16 +44,17 @@ const styles: { [name: string]: React.CSSProperties } = {
 
 const Navbar = () => {
   const data = useStaticQuery(graphql`
-    query {
-      allInternalShows {
+    query InitValues {
+      allInternalShows(filter: { id: { ne: "dummy" } }) {
         edges {
           node {
             alternative_id
-            title
-            cover {
-              alternative_id
-              path
-              url
+            featuredImg {
+              childImageSharp {
+                fluid {
+                  ...GatsbyImageSharpFluid
+                }
+              }
             }
           }
         }
@@ -66,44 +68,40 @@ const Navbar = () => {
       }
     }
   `);
+  const [filter, setFilter] = useState([]);
+  getShows((shows) => {
+    setFilter(shows);
+  }, []);
 
   return (
-    <div style={styles.navbar}>
-      <div style={styles.divider} />
-      <div style={styles.verticalDivider} />
-      <div style={styles.items}>
-        <Link to="#" style={styles.link}>
-          A propos
-        </Link>
-        <Link to="#" style={styles.link}>
-          Blog
-        </Link>
-        <Img
-          fixed={data.file.childImageSharp.fixed}
-          fadeIn={false}
-          draggable={false}
-        />
-        <Link
-          to="#"
-          style={styles.link}
-          onClick={() => {
-            getShows((shows) => {
-              console.log(data.allInternalShows);
-            });
-          }}
-        >
-          Contact
-        </Link>
-        <Link to="#" style={styles.link}>
-          Réserver
-        </Link>
+    <>
+      <div style={styles.navbar}>
+        <div style={styles.divider} />
+        <div style={styles.verticalDivider} />
+        <div style={styles.items}>
+          <Link to="#" style={styles.link}>
+            A propos
+          </Link>
+          <Link to="#" style={styles.link}>
+            Blog
+          </Link>
+          <Img
+            fixed={data.file.childImageSharp.fixed}
+            fadeIn={false}
+            draggable={false}
+          />
+          <Link to="#" style={styles.link}>
+            Contact
+          </Link>
+          <Link to="#" style={styles.link}>
+            Réserver
+          </Link>
+        </div>
+        <div style={styles.verticalDivider} />
+        <div style={styles.divider} />
       </div>
-      <div style={styles.verticalDivider} />
-      <div style={styles.divider} />
-      {data.allInternalShows.edges.map((item) => (
-        <p>{item.node.title}</p>
-      ))}
-    </div>
+      <ModalOrder shows={data.allInternalShows.edges} filter={filter} />
+    </>
   );
 };
 
