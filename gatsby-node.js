@@ -42,7 +42,5 @@ exports.onCreateNode = async ({
     if (fileNode) {
       node.featuredImg___NODE = fileNode.id;
     }
-
-    console.log(node);
   }
 };

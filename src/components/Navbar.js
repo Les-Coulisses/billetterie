@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import Img from "gatsby-image";
 import { getShows } from "../api";
