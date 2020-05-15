@@ -1,4 +1,6 @@
-const { createRemoteFileNode } = require("gatsby-source-filesystem");
+const { createRemoteFileNode } = require('gatsby-source-filesystem');
+const path = require(`path`);
+
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
   createTypes(`
@@ -17,6 +19,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
   `);
 };
+
 exports.onCreateNode = async ({
   node,
   actions: { createNode },
@@ -26,8 +29,8 @@ exports.onCreateNode = async ({
 }) => {
   // For all MarkdownRemark nodes that have a featured image url, call createRemoteFileNode
   if (
-    node.id !== "dummy" &&
-    node.internal.type === "internal__shows" &&
+    node.id !== 'dummy' &&
+    node.internal.type === 'internal__shows' &&
     node.cover.url !== null
   ) {
     let fileNode = await createRemoteFileNode({
@@ -43,4 +46,32 @@ exports.onCreateNode = async ({
       node.featuredImg___NODE = fileNode.id;
     }
   }
+};
+
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions;
+  const showPage = path.resolve('./src/templates/ShowPage.js');
+  return graphql(
+    `
+      {
+        allInternalShows {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
+      }
+    `
+  ).then((result) => {
+    if (result.errors) throw result.errors;
+    const pages = result.data.allInternalShows.edges;
+    pages.forEach((page) =>
+      createPage({
+        path: `/${page.node.slug}`,
+        component: showPage,
+        context: page.node,
+      })
+    );
+  });
 };
