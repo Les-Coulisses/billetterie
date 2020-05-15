@@ -25,11 +25,17 @@
     "node-sass": "^4.12.0",
     "prismic-reactjs": "^1.1.2",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
+    "react": "^16.13.1",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "prettier": "^1.18.2"
   },
   "keywords": [
@@ -42,6 +48,7 @@
     "predevelop": "gatsby clean",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
+    "lint": "eslint .",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "jest src/"

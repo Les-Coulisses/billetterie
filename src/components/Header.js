@@ -1,14 +1,14 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import Img from "gatsby-image";
+import React from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
+import Img from 'gatsby-image';
 
 const styles = {
   image: {
-    maxHeight: "100vh",
-    height: "120%",
-    overflow: "hidden",
-    zIndex: -1,
-  },
+    maxHeight: '100vh',
+    height: '120%',
+    overflow: 'hidden',
+    zIndex: -1
+  }
 };
 
 const Header = () => {

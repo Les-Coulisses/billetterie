@@ -26,12 +26,10 @@ const ModalOrder = () => {
   const data = useStaticQuery(query);
   const { edges: shows } = data.allInternalShows;
 
-  console.log(shows);
-
   return (
     <ul>
-      {shows.map((item) => (
-        <li style={{ width: '250px' }} key={item.node.id}>
+      {shows.map(item => (
+        <li style={{ width: 250 }} key={item.node.id}>
           <Img
             durationFadeIn={1000}
             draggable={false}

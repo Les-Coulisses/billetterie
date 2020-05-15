@@ -15,29 +15,29 @@ const styles = {
     color: 'white',
     position: 'absolute',
     top: 0,
-    userSelect: 'none',
+    userSelect: 'none'
   },
   divider: {
     flexGrow: 1,
     height: 3,
     borderTop: 'solid 1px rgba(192, 192, 192, 0.35)',
-    borderBottom: 'solid 1px rgba(192, 192, 192, 0.35)',
+    borderBottom: 'solid 1px rgba(192, 192, 192, 0.35)'
   },
   verticalDivider: {
     height: '20%',
-    borderRight: 'solid 1px rgba(192, 192, 192, 0.35)',
+    borderRight: 'solid 1px rgba(192, 192, 192, 0.35)'
   },
   items: {
     width: 1000,
     height: '100%',
     display: 'flex',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   link: {
     textDecoration: 'none',
-    color: 'white',
-  },
+    color: 'white'
+  }
 };
 
 const query = graphql`

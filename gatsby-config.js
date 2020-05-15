@@ -1,38 +1,38 @@
 module.exports = {
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    'gatsby-plugin-react-helmet',
     {
-      resolve: `gatsby-plugin-page-creator`,
+      resolve: 'gatsby-plugin-page-creator',
       options: {
-        path: `${__dirname}/src/pages`,
-      },
+        path: `${__dirname}/src/pages`
+      }
     },
     {
-      resolve: `gatsby-plugin-sass`,
+      resolve: 'gatsby-plugin-sass',
       options: {
-        precision: 8,
-      },
+        precision: 8
+      }
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `Potimarrants`,
-        short_name: `Poti`,
-        start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `${__dirname}/src/images/favicon.png`,
-      },
+        name: 'Potimarrants',
+        short_name: 'Poti',
+        start_url: '/',
+        background_color: '#ffffff',
+        theme_color: '#663399',
+        display: 'minimal-ui',
+        icon: `${__dirname}/src/images/favicon.png`
+      }
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/src/images/`,
-        name: `images`,
-      },
+        name: 'images'
+      }
     },
     {
       resolve: 'gatsby-source-apiserver',
@@ -41,15 +41,15 @@ module.exports = {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
-          Origin: 'http://localhost:8000',
+          Origin: 'http://localhost:8000'
         },
         typePrefix: 'internal__',
-        name: `shows`,
+        name: 'shows',
         params: {
-          results: 10,
+          results: 10
         },
-        verboseOutput: true,
-      },
-    },
-  ],
+        verboseOutput: true
+      }
+    }
+  ]
 };

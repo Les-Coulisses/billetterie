@@ -4,7 +4,7 @@ import Img from 'gatsby-image';
 
 const ShowPage = ({ pageContext, data }) => {
   const {
-    fluid: coverFluid,
+    fluid: coverFluid
   } = data.internalShows.featuredCover.childImageSharp;
 
   return (
@@ -16,7 +16,7 @@ const ShowPage = ({ pageContext, data }) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       <Img

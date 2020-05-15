@@ -9,8 +9,8 @@ import ModalOrder from '../components/ModalOrder';
 const styles = {
   layout: {
     width: '100vw',
-    height: '100vh',
-  },
+    height: '100vh'
+  }
 };
 
 const IndexPage = () => (
