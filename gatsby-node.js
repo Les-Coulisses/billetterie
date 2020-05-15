@@ -9,7 +9,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       slug: String
       title: String
       cover: Frontmatter
-      featuredImg: File @link(from: "featuredImg___NODE")
+      featuredCover: File @link(from: "featuredImg___NODE")
     }
     type Frontmatter {
       id: String
@@ -64,14 +64,19 @@ exports.createPages = ({ graphql, actions }) => {
       }
     `
   ).then((result) => {
-    if (result.errors) throw result.errors;
-    const pages = result.data.allInternalShows.edges;
-    pages.forEach((page) =>
-      createPage({
-        path: `/${page.node.slug}`,
-        component: showPage,
-        context: page.node,
-      })
-    );
+    if (result.errors) {
+      throw result.errors;
+    } else {
+      const pages = result.data.allInternalShows.edges;
+      pages.forEach((page) => {
+        if (page.node.slug)
+          createPage({
+            path: `/${page.node.slug}`,
+            component: showPage,
+            context: { slug: page.node.slug },
+          });
+      });
+    }
+    return null;
   });
 };

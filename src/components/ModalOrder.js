@@ -1,20 +1,44 @@
-import React from "react";
-import Img from "gatsby-image";
+import React from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
+import Img from 'gatsby-image';
 
-const ModalOrder = (props) => {
+const query = graphql`
+  {
+    allInternalShows(filter: { id: { ne: "dummy" } }) {
+      edges {
+        node {
+          alternative_id
+          id
+          featuredCover {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const ModalOrder = () => {
+  const data = useStaticQuery(query);
+  const { edges: shows } = data.allInternalShows;
+
+  console.log(shows);
+
   return (
     <ul>
-      {props.shows
-        .filter((item) => props.filter.includes(item.node.alternative_id))
-        .map((item) => (
-          <li style={{ width: "250px" }} key={item.node.id}>
-            <Img
-              durationFadeIn={1000}
-              draggable={false}
-              fluid={item.node.featuredImg.childImageSharp.fluid}
-            />
-          </li>
-        ))}
+      {shows.map((item) => (
+        <li style={{ width: '250px' }} key={item.node.id}>
+          <Img
+            durationFadeIn={1000}
+            draggable={false}
+            fluid={item.node.featuredCover.childImageSharp.fluid}
+          />
+        </li>
+      ))}
     </ul>
   );
 };

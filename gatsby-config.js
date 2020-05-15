@@ -16,7 +16,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: "gatsby-plugin-manifest",
+      resolve: 'gatsby-plugin-manifest',
       options: {
         name: `Potimarrants`,
         short_name: `Poti`,
@@ -35,15 +35,15 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-apiserver",
+      resolve: 'gatsby-source-apiserver',
       options: {
-        url: "https://les-coulisses.touchard.bzh/api/public/shows",
-        method: "get",
+        url: 'https://les-coulisses.touchard.bzh/api/public/shows',
+        method: 'get',
         headers: {
-          "Content-Type": "application/json",
-          Origin: "http://localhost:8000",
+          'Content-Type': 'application/json',
+          Origin: 'http://localhost:8000',
         },
-        typePrefix: "internal__",
+        typePrefix: 'internal__',
         name: `shows`,
         params: {
           results: 10,

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
-import ModalOrder from './ModalOrder';
 
 const styles = {
   navbar: {
@@ -41,62 +40,47 @@ const styles = {
   },
 };
 
-const Navbar = () => {
-  const data = useStaticQuery(graphql`
-    query InitValues {
-      allInternalShows(filter: { id: { ne: "dummy" } }) {
-        edges {
-          node {
-            alternative_id
-            featuredImg {
-              childImageSharp {
-                fluid {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-          }
-        }
-      }
-      file(name: { eq: "white-logo" }) {
-        childImageSharp {
-          fixed(height: 66) {
-            ...GatsbyImageSharpFixed
-          }
+const query = graphql`
+  {
+    file(name: { eq: "white-logo" }) {
+      childImageSharp {
+        fixed(height: 66) {
+          ...GatsbyImageSharpFixed
         }
       }
     }
-  `);
-  console.log(data);
+  }
+`;
+
+const Navbar = () => {
+  const data = useStaticQuery(query);
+
   return (
-    <>
-      <div style={styles.navbar}>
-        <div style={styles.divider} />
-        <div style={styles.verticalDivider} />
-        <div style={styles.items}>
-          <Link to='#' style={styles.link}>
-            A propos
-          </Link>
-          <Link to='#' style={styles.link}>
-            Blog
-          </Link>
-          <Img
-            fixed={data.file.childImageSharp.fixed}
-            fadeIn={false}
-            draggable={false}
-          />
-          <Link to='#' style={styles.link}>
-            Contact
-          </Link>
-          <Link to='#' style={styles.link}>
-            Réserver
-          </Link>
-        </div>
-        <div style={styles.verticalDivider} />
-        <div style={styles.divider} />
+    <div style={styles.navbar}>
+      <div style={styles.divider} />
+      <div style={styles.verticalDivider} />
+      <div style={styles.items}>
+        <Link to='/#' style={styles.link}>
+          A propos
+        </Link>
+        <Link to='/#' style={styles.link}>
+          Blog
+        </Link>
+        <Img
+          fixed={data.file.childImageSharp.fixed}
+          fadeIn={false}
+          draggable={false}
+        />
+        <Link to='/#' style={styles.link}>
+          Contact
+        </Link>
+        <Link to='/#' style={styles.link}>
+          Réserver
+        </Link>
       </div>
-      {/* <ModalOrder shows={data.allInternalShows.edges} filter={filter} /> */}
-    </>
+      <div style={styles.verticalDivider} />
+      <div style={styles.divider} />
+    </div>
   );
 };
 

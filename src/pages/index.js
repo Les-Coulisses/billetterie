@@ -4,6 +4,7 @@ import '../scss/normalize.scss';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import ReactHelmet from '../components/ReactHelmet';
+import ModalOrder from '../components/ModalOrder';
 
 const styles = {
   layout: {
@@ -16,6 +17,7 @@ const IndexPage = () => (
   <div style={styles.layout}>
     <ReactHelmet />
     <Navbar />
+    <ModalOrder />
     <Header />
   </div>
 );

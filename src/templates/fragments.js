@@ -6,6 +6,6 @@ const FluidImageFragment = `
         srcSet
         sizes
     }
-`
+`;
 
-module.exports.FluidImageFragment = FluidImageFragment
+module.exports.FluidImageFragment = FluidImageFragment;
