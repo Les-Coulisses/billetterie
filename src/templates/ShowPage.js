@@ -23,9 +23,9 @@ const ShowPage = ({ pageContext, data }) => {
         durationFadeIn={1000}
         draggable={false}
         fluid={coverFluid}
-        style={{ width: 120 }}
+        style={{ width: 600 }}
       />
-      {pageContext.slug}
+      {pageContext.title}
     </div>
   );
 };
@@ -37,7 +37,7 @@ export const query = graphql`
     internalShows(slug: { eq: $slug }) {
       featuredCover {
         childImageSharp {
-          fluid {
+          fluid(maxWidth: 1000) {
             ...GatsbyImageSharpFluid
           }
         }

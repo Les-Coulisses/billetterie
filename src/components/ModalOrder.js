@@ -19,25 +19,40 @@ const query = graphql`
         }
       }
     }
+    allInternalDomains {
+      edges {
+        node {
+          domain
+        }
+      }
+    }
   }
 `;
 
 const ModalOrder = () => {
   const data = useStaticQuery(query);
-  const { edges: shows } = data.allInternalShows;
+  const { edges: showsList } = data.allInternalShows;
+  const { edges: domains } = data.allInternalDomains;
 
   return (
-    <ul>
-      {shows.map(item => (
-        <li style={{ width: 250 }} key={item.node.id}>
-          <Img
-            durationFadeIn={1000}
-            draggable={false}
-            fluid={item.node.featuredCover.childImageSharp.fluid}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {showsList.map(item => (
+          <li style={{ width: 250 }} key={item.node.id}>
+            <Img
+              durationFadeIn={1000}
+              draggable={false}
+              fluid={item.node.featuredCover.childImageSharp.fluid}
+            />
+          </li>
+        ))}
+      </ul>
+      <ul>
+        {domains.map(item => (
+          <li>{item.node.domain}</li>
+        ))}
+      </ul>
+    </>
   );
 };
 

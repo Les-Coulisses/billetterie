@@ -1,5 +1,4 @@
 import React from 'react';
-
 import '../scss/normalize.scss';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
@@ -8,8 +7,8 @@ import ModalOrder from '../components/ModalOrder';
 
 const styles = {
   layout: {
-    width: '100vw',
-    height: '100vh'
+    width: 'vw',
+    height: 'vh'
   }
 };
 
