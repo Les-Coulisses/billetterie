@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
-import SimpleModal from './SimpleModal';
+import SimpleModal from './ModalOrder/ModalOrder';
 
 const styles = {
   navbar: {
@@ -55,6 +55,15 @@ const query = graphql`
 
 const Navbar = () => {
   const data = useStaticQuery(query);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div style={styles.navbar}>
@@ -75,13 +84,13 @@ const Navbar = () => {
         <Link to='/#' style={styles.link}>
           Contact
         </Link>
-        <Link to='/#' style={styles.link}>
+        <Link to='/#' style={styles.link} onClick={handleOpen}>
           Réserver
         </Link>
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
-      <SimpleModal />
+      <SimpleModal opened={open} close={handleClose} />
     </div>
   );
 };

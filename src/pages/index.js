@@ -3,7 +3,7 @@ import '../scss/normalize.scss';
 import Navbar from '../components/NavBar';
 import Header from '../components/Header';
 import ReactHelmet from '../components/ReactHelmet';
-import ModalOrder from '../components/ModalOrder';
+import ModalOrder from '../components/ModalOrder/ModalOrder';
 
 const styles = {
   layout: {
