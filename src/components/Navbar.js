@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
+import SimpleModal from './SimpleModal';
 
 const styles = {
   navbar: {
@@ -80,6 +81,7 @@ const Navbar = () => {
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
+      <SimpleModal />
     </div>
   );
 };

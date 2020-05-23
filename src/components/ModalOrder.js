@@ -1,38 +1,9 @@
 import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
-
-const query = graphql`
-  {
-    allInternalShows(filter: { id: { ne: "dummy" } }) {
-      edges {
-        node {
-          alternative_id
-          id
-          featuredCover {
-            childImageSharp {
-              fluid {
-                ...GatsbyImageSharpFluid
-              }
-            }
-          }
-        }
-      }
-    }
-    allInternalDomains {
-      edges {
-        node {
-          domain
-        }
-      }
-    }
-  }
-`;
+import { getShows } from '../utils';
 
 const ModalOrder = () => {
-  const data = useStaticQuery(query);
-  const { edges: showsList } = data.allInternalShows;
-  const { edges: domains } = data.allInternalDomains;
+  const showsList = getShows();
 
   return (
     <>
@@ -45,11 +16,6 @@ const ModalOrder = () => {
               fluid={item.node.featuredCover.childImageSharp.fluid}
             />
           </li>
-        ))}
-      </ul>
-      <ul>
-        {domains.map(item => (
-          <li>{item.node.domain}</li>
         ))}
       </ul>
     </>

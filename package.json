@@ -6,6 +6,7 @@
   "author": "Nathan Douillet <douilletnathan@gmail.com>",
   "main": "gatsby-config.js",
   "dependencies": {
+    "@material-ui/core": "^4.9.14",
     "animejs": "^3.0.1",
     "antd": "^4.0.4",
     "bootstrap": "^4.5.0",
