@@ -1,5 +1,5 @@
-const { createRemoteFileNode } = require("gatsby-source-filesystem");
-const path = require("path");
+const { createRemoteFileNode } = require('gatsby-source-filesystem');
+const path = require('path');
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -25,12 +25,12 @@ exports.onCreateNode = async ({
   actions: { createNode },
   store,
   cache,
-  createNodeId,
+  createNodeId
 }) => {
   // For all MarkdownRemark nodes that have a featured image url, call createRemoteFileNode
   if (
-    node.id !== "dummy" &&
-    node.internal.type === "internal__shows" &&
+    node.id !== 'dummy' &&
+    node.internal.type === 'internal__shows' &&
     node.cover.url !== null
   ) {
     const fileNode = await createRemoteFileNode({
@@ -39,7 +39,7 @@ exports.onCreateNode = async ({
       createNode, // helper function in gatsby-node to generate the node
       createNodeId, // helper function in gatsby-node to generate the node id
       cache, // Gatsby's cache
-      store, // Gatsby's redux store
+      store // Gatsby's redux store
     });
     // if the file was created, attach the new node to the parent node
     if (fileNode) {
@@ -51,7 +51,7 @@ exports.onCreateNode = async ({
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
-  const showPage = path.resolve("./src/templates/ShowPage.js");
+  const showPage = path.resolve('./src/templates/ShowPage.js');
   return graphql(
     `
       {
@@ -65,17 +65,17 @@ exports.createPages = ({ graphql, actions }) => {
         }
       }
     `
-  ).then((result) => {
+  ).then(result => {
     if (result.errors) {
       throw result.errors;
     } else {
       const pages = result.data.allInternalShows.edges;
-      pages.forEach((page) => {
+      pages.forEach(page => {
         if (page.node.slug) {
           createPage({
             path: `/${page.node.slug}`,
             component: showPage,
-            context: { title: page.node.title, slug: page.node.slug },
+            context: { title: page.node.title, slug: page.node.slug }
           });
         }
       });
