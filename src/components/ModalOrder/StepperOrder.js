@@ -10,7 +10,7 @@ import ShowsStep from './Steps/ShowsStep/ShowsStep';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '50%',
+    width: '100%',
     background: 'white'
   },
   backButton: {
