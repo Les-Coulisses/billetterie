@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -25,18 +25,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleModal({ opened, close }) {
   const classes = useStyles();
+  const [orderData, setOrderData] = useState({});
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const body = (
     <div className={classes.paper}>
-      <StepperOrder />
+      <StepperOrder data={orderData} setData={setOrderData} />
     </div>
   );
 
   return (
     <div>
       <Modal
-        open={opened}
+        open={opened || false}
         onClose={close}
         className={classes.modal}
         aria-labelledby='simple-modal-title'

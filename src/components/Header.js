@@ -16,7 +16,7 @@ const Header = () => {
     query {
       file(name: { eq: "header" }) {
         childImageSharp {
-          fluid {
+          fluid(maxWidth: 2000) {
             ...GatsbyImageSharpFluid
           }
         }

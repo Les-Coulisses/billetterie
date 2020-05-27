@@ -34,20 +34,7 @@ function getSteps() {
   return steps;
 }
 
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return <ShowsStep />;
-    case 1:
-      return 'test 2';
-    case 2:
-      return 'This is the bit I really care about!';
-    default:
-      return 'Unknown stepIndex';
-  }
-}
-
-export default function StepperOrder() {
+export default function StepperOrder({ data, setData }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -62,6 +49,19 @@ export default function StepperOrder() {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const getStepContent = stepIndex => {
+    switch (stepIndex) {
+      case 0:
+        return <ShowsStep data={data} setData={setData} goNext={handleNext} />;
+      case 1:
+        return 'test 2';
+      case 2:
+        return 'This is the bit I really care about!';
+      default:
+        return 'Unknown stepIndex';
+    }
   };
 
   return (
@@ -83,9 +83,7 @@ export default function StepperOrder() {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
+            {getStepContent(activeStep)}
             <div>
               <Button
                 disabled={activeStep === 0}

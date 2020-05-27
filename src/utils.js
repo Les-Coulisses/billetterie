@@ -10,7 +10,7 @@ const query = graphql`
           account_id
           featuredCover {
             childImageSharp {
-              fluid {
+              fluid(maxWidth: 1500) {
                 ...GatsbyImageSharpFluid
               }
             }
