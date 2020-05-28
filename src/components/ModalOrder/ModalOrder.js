@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import StepperOrder from './StepperOrder';
+import { OrderProvider } from '../../hooks/OrderContext';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -25,17 +26,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleModal({ opened, close }) {
   const classes = useStyles();
-  const [orderData, setOrderData] = useState({});
+  const [order, setOrder] = useState({
+    show: undefined,
+    performance: undefined
+  });
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const body = (
     <div className={classes.paper}>
-      <StepperOrder data={orderData} setData={setOrderData} />
+      <StepperOrder />
     </div>
   );
 
   return (
-    <div>
+    <OrderProvider value={{ order, setOrder }}>
       <Modal
         open={opened || false}
         onClose={close}
@@ -45,6 +49,6 @@ export default function SimpleModal({ opened, close }) {
       >
         <Fade in={opened}>{body}</Fade>
       </Modal>
-    </div>
+    </OrderProvider>
   );
 }

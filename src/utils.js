@@ -26,6 +26,19 @@ const query = graphql`
         }
       }
     }
+    allInternalPerformances {
+      edges {
+        node {
+          alternative_id
+          show_id
+          date {
+            timestamp
+            default
+            french
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -42,5 +55,12 @@ export function getShows() {
   const data = useStaticQuery(query);
   return data.allInternalShows.edges.filter(
     item => item.node.account_id === getAccountId()
+  );
+}
+
+export function getPerformances(showId) {
+  const data = useStaticQuery(query);
+  return data.allInternalPerformances.edges.filter(
+    item => item.node.show_id === showId
   );
 }

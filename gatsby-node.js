@@ -45,6 +45,10 @@ exports.onCreateNode = async ({
     if (fileNode) {
       // eslint-disable-next-line no-param-reassign
       node.featuredImg___NODE = fileNode.id;
+      // eslint-disable-next-line no-console
+      console.info(
+        `charge cover ${fileNode.id} for show ${node.id} ${node.slug}`
+      );
     }
   }
 };

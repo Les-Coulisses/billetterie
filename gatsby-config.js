@@ -67,6 +67,22 @@ module.exports = {
         },
         verboseOutput: true
       }
+    },
+    {
+      resolve: 'gatsby-source-apiserver',
+      options: {
+        url: `${apiUrl}/gatsby/performances`,
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        typePrefix: 'internal__',
+        name: 'performances',
+        params: {
+          results: 10
+        },
+        verboseOutput: true
+      }
     }
   ]
 };

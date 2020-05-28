@@ -2,6 +2,7 @@ import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
 import { getShows } from '../../../../utils';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -16,12 +17,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ShowsStep({ data, setData, goNext }) {
+export default function ShowsStep({ goNext }) {
   const showsList = getShows();
   const classes = useStyles();
+  const [order, setOrder] = useOrderContext();
 
   const handleOnClick = showId => {
-    setData({ ...data, show: showId });
+    setOrder({ ...order, show: showId });
     goNext();
   };
 
@@ -29,7 +31,7 @@ export default function ShowsStep({ data, setData, goNext }) {
     <ul className={classes.list}>
       {showsList.map(item => (
         <li className={classes.showItem} key={item.node.id}>
-          {item.node.alternative_id === data.show && <span>Choisi</span>}
+          {item.node.alternative_id === order.show && <span>Choisi</span>}
           <Img
             durationFadeIn={1000}
             draggable={false}

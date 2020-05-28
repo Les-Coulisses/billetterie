@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { getShows } from '../../utils';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
+import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,7 +35,7 @@ function getSteps() {
   return steps;
 }
 
-export default function StepperOrder({ data, setData }) {
+export default function StepperOrder() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -54,9 +55,9 @@ export default function StepperOrder({ data, setData }) {
   const getStepContent = stepIndex => {
     switch (stepIndex) {
       case 0:
-        return <ShowsStep data={data} setData={setData} goNext={handleNext} />;
+        return <ShowsStep goNext={handleNext} />;
       case 1:
-        return 'test 2';
+        return <PerformancesStep goNext={handleNext} />;
       case 2:
         return 'This is the bit I really care about!';
       default:
