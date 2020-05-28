@@ -28,8 +28,10 @@ function getSteps() {
   if (getShows().length > 1) {
     steps.push('Spectacles');
     steps.push('Représentations');
+    steps.push('Places');
   } else {
     steps.push('Représentations');
+    steps.push('Places');
   }
 
   return steps;

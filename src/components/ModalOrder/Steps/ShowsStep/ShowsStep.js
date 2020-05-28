@@ -22,8 +22,8 @@ export default function ShowsStep({ goNext }) {
   const classes = useStyles();
   const [order, setOrder] = useOrderContext();
 
-  const handleOnClick = showId => {
-    setOrder({ ...order, show: showId });
+  const handleOnClick = showSelected => {
+    setOrder({ ...order, show: showSelected });
     goNext();
   };
 
@@ -31,7 +31,9 @@ export default function ShowsStep({ goNext }) {
     <ul className={classes.list}>
       {showsList.map(item => (
         <li className={classes.showItem} key={item.node.id}>
-          {item.node.alternative_id === order.show && <span>Choisi</span>}
+          {item.node.alternative_id === order.show.alternative_id && (
+            <span>Choisi</span>
+          )}
           <Img
             durationFadeIn={1000}
             draggable={false}
@@ -39,7 +41,7 @@ export default function ShowsStep({ goNext }) {
           />
           <Button
             onClick={() => {
-              handleOnClick(item.node.alternative_id);
+              handleOnClick(item.node);
             }}
           >
             Prendre un billet

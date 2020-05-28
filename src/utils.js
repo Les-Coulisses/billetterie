@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from 'gatsby';
 
-const query = graphql`
+export const query = graphql`
   {
     allInternalShows(filter: { id: { ne: "dummy" } }) {
       edges {
@@ -55,12 +55,5 @@ export function getShows() {
   const data = useStaticQuery(query);
   return data.allInternalShows.edges.filter(
     item => item.node.account_id === getAccountId()
-  );
-}
-
-export function getPerformances(showId) {
-  const data = useStaticQuery(query);
-  return data.allInternalPerformances.edges.filter(
-    item => item.node.show_id === showId
   );
 }
