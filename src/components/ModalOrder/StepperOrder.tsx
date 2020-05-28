@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { getShows } from '../../utils';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
+import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 
 const useStyles = makeStyles(theme => ({
@@ -61,7 +62,7 @@ export default function StepperOrder() {
       case 1:
         return <PerformancesStep goNext={handleNext} />;
       case 2:
-        return 'This is the bit I really care about!';
+        return <PlacesStep goNext={handleNext} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -87,18 +88,11 @@ export default function StepperOrder() {
         ) : (
           <div>
             {getStepContent(activeStep)}
-            <div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.backButton}
-              >
-                Back
+            {activeStep !== 0 && (
+              <Button onClick={handleBack} className={classes.backButton}>
+                Retour
               </Button>
-              <Button variant='contained' color='primary' onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>
+            )}
           </div>
         )}
       </div>

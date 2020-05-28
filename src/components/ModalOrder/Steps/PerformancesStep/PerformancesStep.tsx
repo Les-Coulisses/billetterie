@@ -17,20 +17,25 @@ export default function PerformancesStep({ goNext }) {
     return <p>test</p>;
   }
 
+  console.log(order);
+
   return (
-    <ul>
-      {performances.map(item => (
-        <li key={item.id}>
-          {item.date.french}
-          <Button
-            onClick={() => {
-              handleOnClick(item);
-            }}
-          >
-            Choisir
-          </Button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h1>{order.show.title}</h1>
+      <ul>
+        {performances.map(item => (
+          <li key={item.id}>
+            {item.date.french}
+            <Button
+              onClick={() => {
+                handleOnClick(item);
+              }}
+            >
+              Choisir
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

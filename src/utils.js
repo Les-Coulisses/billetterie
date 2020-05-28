@@ -8,6 +8,8 @@ export const query = graphql`
           alternative_id
           id
           account_id
+          title
+          slug
           featuredCover {
             childImageSharp {
               fluid(maxWidth: 1500) {
@@ -36,6 +38,16 @@ export const query = graphql`
             default
             french
           }
+        }
+      }
+    }
+    allInternalCategories {
+      edges {
+        node {
+          alternative_id
+          performance_id
+          name
+          nb_places
         }
       }
     }

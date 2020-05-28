@@ -28,3 +28,10 @@ export type PerformanceDto = {
   show_id: number;
   date: Date;
 };
+
+export type CategoryDto = {
+  id: string;
+  alternative_id: number;
+  name: string;
+  nb_places: number;
+};
