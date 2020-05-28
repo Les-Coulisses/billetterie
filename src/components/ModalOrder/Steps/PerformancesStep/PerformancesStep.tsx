@@ -20,18 +20,15 @@ export default function PerformancesStep({ goNext }) {
   return (
     <ul>
       {performances.map(item => (
-        <li key={item.node.id}>
-          {item.node.date.french}
+        <li key={item.id}>
+          {item.date.french}
           <Button
             onClick={() => {
-              handleOnClick(item.node);
+              handleOnClick(item);
             }}
           >
             Choisir
           </Button>
-          {item.node.alternative_id === order.performance.alternative_id && (
-            <span>Choisi</span>
-          )}
         </li>
       ))}
     </ul>

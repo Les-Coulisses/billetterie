@@ -38,6 +38,22 @@ module.exports = {
     {
       resolve: 'gatsby-source-apiserver',
       options: {
+        url: `${apiUrl}/gatsby/performances`,
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        typePrefix: 'internal__',
+        name: 'performances',
+        params: {
+          results: 10
+        },
+        verboseOutput: true
+      }
+    },
+    {
+      resolve: 'gatsby-source-apiserver',
+      options: {
         url: `${apiUrl}/public/shows`,
         method: 'get',
         headers: {
@@ -62,22 +78,6 @@ module.exports = {
         },
         typePrefix: 'internal__',
         name: 'domains',
-        params: {
-          results: 10
-        },
-        verboseOutput: true
-      }
-    },
-    {
-      resolve: 'gatsby-source-apiserver',
-      options: {
-        url: `${apiUrl}/gatsby/performances`,
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        typePrefix: 'internal__',
-        name: 'performances',
         params: {
           results: 10
         },

@@ -1,8 +1,8 @@
 import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
-import { getShows } from '../../../../utils';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import useFetchShows from '../../../../hooks/useFetchShows';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function ShowsStep({ goNext }) {
-  const showsList = getShows();
+  const [showsList] = useFetchShows();
   const classes = useStyles();
   const [order, setOrder] = useOrderContext();
 
@@ -27,21 +27,24 @@ export default function ShowsStep({ goNext }) {
     goNext();
   };
 
+  if (showsList === undefined) {
+    return <p>Loading</p>;
+  }
+
+  console.log('shows list', showsList);
+
   return (
     <ul className={classes.list}>
       {showsList.map(item => (
-        <li className={classes.showItem} key={item.node.id}>
-          {item.node.alternative_id === order.show.alternative_id && (
-            <span>Choisi</span>
-          )}
+        <li className={classes.showItem} key={item.id}>
           <Img
             durationFadeIn={1000}
             draggable={false}
-            fluid={item.node.featuredCover.childImageSharp.fluid}
+            fluid={item.featuredCover.childImageSharp.fluid}
           />
           <Button
             onClick={() => {
-              handleOnClick(item.node);
+              handleOnClick(item);
             }}
           >
             Prendre un billet
