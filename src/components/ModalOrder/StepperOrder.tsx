@@ -9,6 +9,7 @@ import { getShows } from '../../utils';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
+import { useOrderContext } from '../../hooks/OrderContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,11 +25,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function getSteps() {
+function getSteps(order) {
   const steps = [];
   if (getShows().length > 1) {
-    steps.push('Spectacles');
-    steps.push('Représentations');
+    steps.push(order.show !== undefined ? order.show.title : 'Spectacles');
+    steps.push(
+      order.performance !== undefined
+        ? order.performance.date.french
+        : 'Représentations'
+    );
     steps.push('Places');
   } else {
     steps.push('Représentations');
@@ -39,9 +44,10 @@ function getSteps() {
 }
 
 export default function StepperOrder() {
+  const [order, setOrder] = useOrderContext();
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const steps = getSteps(order);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);

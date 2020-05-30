@@ -35,3 +35,22 @@ export type CategoryDto = {
   name: string;
   nb_places: number;
 };
+
+export type RateDto = {
+  id: string;
+  alternative_id: number;
+  name: string;
+  informations: string | null;
+  groupe_rate: boolean;
+  min: number | null;
+  max: number | null;
+};
+
+export type PriceDto = {
+  id: string;
+  alternative_id: number;
+  amount: string;
+  performance_id: number;
+  category_id: number;
+  rate: RateDto;
+};

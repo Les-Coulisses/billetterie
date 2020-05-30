@@ -31,6 +31,7 @@ export const query = graphql`
     allInternalPerformances {
       edges {
         node {
+          id
           alternative_id
           show_id
           date {
@@ -44,10 +45,26 @@ export const query = graphql`
     allInternalCategories {
       edges {
         node {
+          id
           alternative_id
           performance_id
           name
           nb_places
+        }
+      }
+    }
+    allInternalPrices {
+      edges {
+        node {
+          id
+          alternative_id
+          amount
+          rate {
+            alternative_id
+            name
+          }
+          category_id
+          performance_id
         }
       }
     }

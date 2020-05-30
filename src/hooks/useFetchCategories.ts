@@ -12,10 +12,10 @@ const useFetchCategories = (
   useEffect(() => {
     setCategories(
       data.allInternalCategories.edges
-        .filter(item => item.node.performance_id === performanceId)
+        .filter(item => item.node.performance_id == performanceId)
         .map(item => item.node)
     );
-  }, []);
+  }, [performanceId]);
 
   return [categories, setCategories];
 };

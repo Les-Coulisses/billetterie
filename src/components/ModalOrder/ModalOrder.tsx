@@ -25,10 +25,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SimpleModal({ opened, close }) {
+  console.log('render modal');
   const classes = useStyles();
   const [order, setOrder] = useState({
     show: undefined,
-    performance: undefined
+    performance: undefined,
+    category: undefined
   });
   // getModalStyle is not a pure function, we roll the style only on the first render
 

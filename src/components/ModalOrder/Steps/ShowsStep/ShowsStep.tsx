@@ -21,9 +21,10 @@ export default function ShowsStep({ goNext }) {
   const [showsList] = useFetchShows();
   const classes = useStyles();
   const [order, setOrder] = useOrderContext();
+  console.log('render ShowStep', order);
 
   const handleOnClick = showSelected => {
-    setOrder({ ...order, show: showSelected });
+    setOrder({ show: showSelected });
     goNext();
   };
 
@@ -42,6 +43,7 @@ export default function ShowsStep({ goNext }) {
             draggable={false}
             fluid={item.featuredCover.childImageSharp.fluid}
           />
+          <p>{item.title}</p>
           <Button
             onClick={() => {
               handleOnClick(item);

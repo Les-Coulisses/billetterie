@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost/laravel-api/public/api';
+const apiUrl = 'http://les-coulisses.touchard.bzh/api';
 module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -58,6 +58,19 @@ module.exports = {
         },
         typePrefix: 'internal__',
         name: 'categories',
+        verboseOutput: true
+      }
+    },
+    {
+      resolve: 'gatsby-source-apiserver',
+      options: {
+        url: `${apiUrl}/gatsby/prices`,
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        typePrefix: 'internal__',
+        name: 'prices',
         verboseOutput: true
       }
     },

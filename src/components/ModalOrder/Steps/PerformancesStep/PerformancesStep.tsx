@@ -5,11 +5,12 @@ import useFetchPerformances from '../../../../hooks/useFetchPerformances';
 
 export default function PerformancesStep({ goNext }) {
   const [order, setOrder] = useOrderContext();
+  console.log('render PerformanceStep', order);
   const performanceHook = useFetchPerformances(order.show.alternative_id);
   const [performances] = performanceHook;
 
   const handleOnClick = perfSelected => {
-    setOrder({ ...order, performance: perfSelected });
+    setOrder({ ...order, performance: perfSelected, category: undefined });
     goNext();
   };
 
