@@ -5,7 +5,6 @@ import useFetchCategories from '../../../../hooks/useFetchCategories';
 
 export default function SelectCategory() {
   const [order, setOrder] = useOrderContext();
-  console.log('render Cateogry select', order);
   const categoryHook = useFetchCategories(order.performance.alternative_id);
   const [categories] = categoryHook;
 

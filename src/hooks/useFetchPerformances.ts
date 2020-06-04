@@ -10,11 +10,6 @@ const useFetchPerformances = (
   const [performances, setPerformances] = useState<PerformanceDto[]>(undefined);
 
   useEffect(() => {
-    console.log(showId + '');
-    console.log(
-      'allPerformances',
-      data.allInternalPerformances.edges.map(item => item.node)
-    );
     setPerformances(
       data.allInternalPerformances.edges
         .filter(item => item.node.show_id == showId)

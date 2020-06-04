@@ -24,14 +24,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SimpleModal({ opened, close }) {
-  console.log('render modal');
   const classes = useStyles();
-  const [order, setOrder] = useState({
+  const initialValues = {
     show: undefined,
     performance: undefined,
     category: undefined,
     places: []
-  });
+  };
+  const [order, setOrder] = useState(initialValues);
   // getModalStyle is not a pure function, we roll the style only on the first render
 
   const body = (
@@ -40,11 +40,16 @@ export default function SimpleModal({ opened, close }) {
     </div>
   );
 
+  const handleClose = () => {
+    setOrder(initialValues);
+    close();
+  };
+
   return (
     <OrderProvider value={{ order, setOrder }}>
       <Modal
         open={opened || false}
-        onClose={close}
+        onClose={handleClose}
         className={classes.modal}
         aria-labelledby='simple-modal-title'
         aria-describedby='simple-modal-description'

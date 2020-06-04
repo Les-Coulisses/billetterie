@@ -10,6 +10,7 @@ import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import { useOrderContext } from '../../hooks/OrderContext';
+import OrderStep from './Steps/OrderStep/OrderStep';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,7 +35,12 @@ function getSteps(order) {
         ? order.performance.date.french
         : 'Représentations'
     );
-    steps.push('Places');
+    steps.push(
+      order.places === undefined || order.places.length === 0
+        ? 'Places'
+        : order.places.length + ' place' + (order.places.length > 1 ? 's' : '')
+    );
+    steps.push('Informations');
   } else {
     steps.push('Représentations');
     steps.push('Places');
@@ -69,6 +75,8 @@ export default function StepperOrder() {
         return <PerformancesStep goNext={handleNext} />;
       case 2:
         return <PlacesStep goNext={handleNext} />;
+      case 3:
+        return <OrderStep goNext={handleNext} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -93,12 +101,12 @@ export default function StepperOrder() {
           </div>
         ) : (
           <div>
-            {getStepContent(activeStep)}
             {activeStep !== 0 && (
               <Button onClick={handleBack} className={classes.backButton}>
                 Retour
               </Button>
             )}
+            {getStepContent(activeStep)}
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost/laravel-api/public/api';
+const apiUrl = 'http://les-coulisses.touchard.bzh/api';
 module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',

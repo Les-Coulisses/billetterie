@@ -5,7 +5,6 @@ import { Button } from '@material-ui/core';
 import ModalInfosPlace from './ModalInfosPlace';
 
 export default function SelectPrice({ order, setOrder, setOpen }) {
-  console.log('render SelectPrice', order);
   const [prices] = useFetchPrices(
     order.performance.alternative_id,
     order.category !== undefined ? order.category.alternative_id : undefined

@@ -5,7 +5,6 @@ import useFetchPerformances from '../../../../hooks/useFetchPerformances';
 
 export default function PerformancesStep({ goNext }) {
   const [order, setOrder] = useOrderContext();
-  console.log('render PerformanceStep', order);
   const performanceHook = useFetchPerformances(order.show.alternative_id);
   const [performances] = performanceHook;
 
@@ -17,8 +16,6 @@ export default function PerformancesStep({ goNext }) {
   if (performances === undefined) {
     return <p>test</p>;
   }
-
-  console.log(order);
 
   return (
     <>

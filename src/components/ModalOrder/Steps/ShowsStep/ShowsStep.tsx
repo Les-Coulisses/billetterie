@@ -21,7 +21,6 @@ export default function ShowsStep({ goNext }) {
   const [showsList] = useFetchShows();
   const classes = useStyles();
   const [order, setOrder] = useOrderContext();
-  console.log('render ShowStep', order);
 
   const handleOnClick = showSelected => {
     setOrder({ show: showSelected });
@@ -31,8 +30,6 @@ export default function ShowsStep({ goNext }) {
   if (showsList === undefined) {
     return <p>Loading</p>;
   }
-
-  console.log('shows list', showsList);
 
   return (
     <ul className={classes.list}>

@@ -9,15 +9,9 @@ const useFetchPrices = (
 ): [PriceDto[], Dispatch<SetStateAction<PriceDto[]>>] => {
   const data = useStaticQuery(query);
   const [prices, setPrices] = useState<PriceDto[]>(undefined);
-  console.log('performanceId', performanceId);
-  console.log('categoryId', categoryId);
 
   useEffect(() => {
     if (!performanceId !== undefined && categoryId !== undefined) {
-      console.log(
-        'allPrices',
-        data.allInternalPrices.edges.map(item => item.node)
-      );
       setPrices(
         data.allInternalPrices.edges
           .filter(

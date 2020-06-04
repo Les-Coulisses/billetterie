@@ -47,7 +47,6 @@ export default function ModalInfosPlace({ opened, close }) {
     <div className={classes.paper}>
       <form
         onSubmit={event => {
-          console.log(place);
           event.preventDefault();
           place.price = order.price;
           if (Array.isArray(order.places)) {
