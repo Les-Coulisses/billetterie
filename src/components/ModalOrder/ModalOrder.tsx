@@ -14,11 +14,10 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     overflowY: 'scroll',
-    maxHeight: '95vh'
+    height: '88vh',
+    marginTop: '2vh'
   },
   modal: {
-    maxHeight: '90vh',
-    top: '2.5vh !important',
     display: 'flex',
     justifyContent: 'center'
   }
@@ -30,7 +29,8 @@ export default function SimpleModal({ opened, close }) {
   const [order, setOrder] = useState({
     show: undefined,
     performance: undefined,
-    category: undefined
+    category: undefined,
+    places: []
   });
   // getModalStyle is not a pure function, we roll the style only on the first render
 

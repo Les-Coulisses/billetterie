@@ -63,8 +63,12 @@ export const query = graphql`
             alternative_id
             name
           }
-          category_id
-          performance_id
+          category {
+            alternative_id
+          }
+          performance {
+            alternative_id
+          }
         }
       }
     }

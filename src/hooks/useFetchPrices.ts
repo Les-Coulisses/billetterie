@@ -22,8 +22,8 @@ const useFetchPrices = (
         data.allInternalPrices.edges
           .filter(
             item =>
-              item.node.performance_id == performanceId &&
-              item.node.category_id == categoryId
+              item.node.performance.alternative_id == performanceId &&
+              item.node.category.alternative_id == categoryId
           )
           .map(item => item.node)
       );
