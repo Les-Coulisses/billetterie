@@ -1,7 +1,7 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { useStaticQuery } from 'gatsby';
 import { PerformanceDto } from '../types';
-import { query } from '../utils';
+import query from '../utils';
 
 const useFetchPerformances = (
   showId: string

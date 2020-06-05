@@ -5,12 +5,12 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { getShows } from '../../utils';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import { useOrderContext } from '../../hooks/OrderContext';
 import OrderStep from './Steps/OrderStep/OrderStep';
+import useFetchShows from '../../hooks/useFetchShows';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,23 +28,18 @@ const useStyles = makeStyles(theme => ({
 
 function getSteps(order) {
   const steps = [];
-  if (getShows().length > 1) {
-    steps.push(order.show !== undefined ? order.show.title : 'Spectacles');
-    steps.push(
-      order.performance !== undefined
-        ? order.performance.date.french
-        : 'Représentations'
-    );
-    steps.push(
-      order.places === undefined || order.places.length === 0
-        ? 'Places'
-        : order.places.length + ' place' + (order.places.length > 1 ? 's' : '')
-    );
-    steps.push('Informations');
-  } else {
-    steps.push('Représentations');
-    steps.push('Places');
-  }
+  steps.push(order.show !== undefined ? order.show.title : 'Spectacles');
+  steps.push(
+    order.performance !== undefined
+      ? order.performance.date.french
+      : 'Représentations'
+  );
+  steps.push(
+    order.places === undefined || order.places.length === 0
+      ? 'Places'
+      : order.places.length + ' place' + (order.places.length > 1 ? 's' : '')
+  );
+  steps.push('Informations');
 
   return steps;
 }

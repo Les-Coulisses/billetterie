@@ -1,7 +1,7 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { useStaticQuery } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { ShowDto } from '../types';
-import { query } from '../utils';
+import query from '../utils';
 
 const useFetchShows = (): [ShowDto[], Dispatch<SetStateAction<ShowDto[]>>] => {
   const data = useStaticQuery(query);

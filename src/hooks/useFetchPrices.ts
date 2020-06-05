@@ -1,7 +1,7 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { useStaticQuery } from 'gatsby';
 import { PriceDto } from '../types';
-import { query } from '../utils';
+import query from '../utils';
 
 const useFetchPrices = (
   performanceId: number,

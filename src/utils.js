@@ -1,6 +1,6 @@
-import { useStaticQuery, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 
-export const query = graphql`
+const query = graphql`
   {
     allInternalShows(filter: { id: { ne: "dummy" } }) {
       edges {
@@ -75,18 +75,4 @@ export const query = graphql`
   }
 `;
 
-export function getAccountId() {
-  const data = useStaticQuery(query);
-  const filterResult = data.allInternalDomains.edges.filter(
-    item => item.node.domain === window.location.origin
-  );
-  const first = [...filterResult].shift();
-  return first.node.account_id;
-}
-
-export function getShows() {
-  const data = useStaticQuery(query);
-  return data.allInternalShows.edges.filter(
-    item => item.node.account_id === getAccountId()
-  );
-}
+export default query;
