@@ -1,7 +1,22 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { useStaticQuery } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { CategoryDto } from '../types';
-import query from '../utils';
+
+const query = graphql`
+  {
+    allInternalCategories {
+      edges {
+        node {
+          id
+          alternative_id
+          performance_id
+          name
+          nb_places
+        }
+      }
+    }
+  }
+`;
 
 const useFetchCategories = (
   performanceId: number

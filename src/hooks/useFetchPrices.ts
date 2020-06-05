@@ -1,7 +1,30 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { useStaticQuery } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { PriceDto } from '../types';
-import query from '../utils';
+
+const query = graphql`
+  {
+    allInternalPrices {
+      edges {
+        node {
+          id
+          alternative_id
+          amount
+          rate {
+            alternative_id
+            name
+          }
+          category {
+            alternative_id
+          }
+          performance {
+            alternative_id
+          }
+        }
+      }
+    }
+  }
+`;
 
 const useFetchPrices = (
   performanceId: number,

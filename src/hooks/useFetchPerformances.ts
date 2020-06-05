@@ -1,7 +1,25 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { useStaticQuery } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { PerformanceDto } from '../types';
-import query from '../utils';
+
+const query = graphql`
+  {
+    allInternalPerformances {
+      edges {
+        node {
+          id
+          alternative_id
+          show_id
+          date {
+            timestamp
+            default
+            french
+          }
+        }
+      }
+    }
+  }
+`;
 
 const useFetchPerformances = (
   showId: string
