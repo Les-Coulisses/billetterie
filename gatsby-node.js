@@ -8,14 +8,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       id: String
       slug: String
       title: String
-      cover: Frontmatter
+      cover: String
       featuredCover: File @link(from: "featuredImg___NODE")
-    }
-    type Frontmatter {
-      id: String
-      url: String
-      path: String
-      thumb: [String!]!
     }
   `);
 };
@@ -31,10 +25,10 @@ exports.onCreateNode = async ({
   if (
     node.id !== 'dummy' &&
     node.internal.type === 'internal__shows' &&
-    node.cover.url !== null
+    node.cover !== null
   ) {
     const fileNode = await createRemoteFileNode({
-      url: node.cover.url, // string that points to the URL of the image
+      url: node.cover, // string that points to the URL of the image
       parentNodeId: node.id, // id of the parent node of the fileNode you are going to create
       createNode, // helper function in gatsby-node to generate the node
       createNodeId, // helper function in gatsby-node to generate the node id

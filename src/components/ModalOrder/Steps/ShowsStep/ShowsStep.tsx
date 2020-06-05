@@ -1,8 +1,7 @@
 import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
-import { useOrderContext } from '../../../../hooks/OrderContext';
-import useFetchShows from '../../../../hooks/useFetchShows';
+import { OrderStepProps, ShowDto } from '../../../../types';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -17,29 +16,34 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ShowsStep({ goNext }) {
-  const [showsList] = useFetchShows();
-  const classes = useStyles();
-  const [order, setOrder] = useOrderContext();
+interface ShowsStepProps extends OrderStepProps {
+  shows: ShowDto[];
+}
 
-  const handleOnClick = showSelected => {
-    setOrder({ show: showSelected });
+export default function ShowsStep({
+  goNext,
+  shows,
+  setOrder,
+  order
+}: ShowsStepProps) {
+  const classes = useStyles();
+
+  const handleOnClick = (showSelected: ShowDto) => {
+    setOrder({ ...order, show: showSelected });
     goNext();
   };
 
-  if (showsList === undefined) {
-    return <p>Loading</p>;
-  }
-
   return (
     <ul className={classes.list}>
-      {showsList.map(item => (
+      {shows.map(item => (
         <li className={classes.showItem} key={item.id}>
-          <Img
-            durationFadeIn={1000}
-            draggable={false}
-            fluid={item.featuredCover.childImageSharp.fluid}
-          />
+          {item?.featuredCover?.childImageSharp?.fluid !== undefined && (
+            <Img
+              durationFadeIn={1000}
+              draggable={false}
+              fluid={item.featuredCover.childImageSharp.fluid}
+            />
+          )}
           <p>{item.title}</p>
           <Button
             onClick={() => {

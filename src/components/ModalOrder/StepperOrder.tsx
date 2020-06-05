@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -8,9 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
-import { useOrderContext } from '../../hooks/OrderContext';
 import OrderStep from './Steps/OrderStep/OrderStep';
-import useFetchShows from '../../hooks/useFetchShows';
+import { OrderDto, ShowDto } from 'types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,52 +25,68 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function getSteps(order) {
-  const steps = [];
-  steps.push(order.show !== undefined ? order.show.title : 'Spectacles');
-  steps.push(
-    order.performance !== undefined
+const getSteps = (order: OrderDto): (string | undefined)[] => {
+  return [
+    order.show?.title !== undefined ? order.show.title : 'Spectacles',
+    order.performance?.date?.french !== undefined
       ? order.performance.date.french
-      : 'Représentations'
-  );
-  steps.push(
-    order.places === undefined || order.places.length === 0
-      ? 'Places'
-      : order.places.length + ' place' + (order.places.length > 1 ? 's' : '')
-  );
-  steps.push('Informations');
+      : 'Représentations',
+    'Places',
+    'Informations'
+  ];
+};
 
-  return steps;
+interface StepperOrderProps {
+  order: OrderDto;
+  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
+  shows: ShowDto[];
+  activeStep: number;
+  goNext: () => void;
+  goPrev: () => void;
 }
 
-export default function StepperOrder() {
-  const [order, setOrder] = useOrderContext();
+export default function StepperOrder({
+  order,
+  setOrder,
+  shows,
+  goNext,
+  goPrev,
+  activeStep
+}: StepperOrderProps) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps(order);
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const getStepContent = stepIndex => {
+  const getStepContent = (stepIndex: number) => {
     switch (stepIndex) {
       case 0:
-        return <ShowsStep goNext={handleNext} />;
+        return (
+          <ShowsStep
+            goNext={goNext}
+            order={order}
+            setOrder={setOrder}
+            shows={shows}
+          />
+        );
       case 1:
-        return <PerformancesStep goNext={handleNext} />;
+        return (
+          <PerformancesStep
+            goNext={goNext}
+            goPrev={goPrev}
+            order={order}
+            setOrder={setOrder}
+          />
+        );
       case 2:
-        return <PlacesStep goNext={handleNext} />;
+        return (
+          <PlacesStep
+            goNext={goNext}
+            goPrev={goPrev}
+            order={order}
+            setOrder={setOrder}
+          />
+        );
       case 3:
-        return <OrderStep goNext={handleNext} />;
+        return <OrderStep goNext={goNext} order={order} setOrder={setOrder} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -92,12 +107,11 @@ export default function StepperOrder() {
             <Typography className={classes.instructions}>
               All steps completed
             </Typography>
-            <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
           <div>
             {activeStep !== 0 && (
-              <Button onClick={handleBack} className={classes.backButton}>
+              <Button onClick={goPrev} className={classes.backButton}>
                 Retour
               </Button>
             )}

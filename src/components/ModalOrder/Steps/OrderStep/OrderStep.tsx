@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button, TextField, FormControl } from '@material-ui/core';
-import { useOrderContext } from '../../../../hooks/OrderContext';
 import PlacesList from '../PlacesStep/PlacesList';
+import { OrderStepProps } from '../../../../types';
 
-export default function OrderStep({ goNext }) {
-  const [order, setOrder] = useOrderContext();
-
+export default function OrderStep({ goNext, order, setOrder }: OrderStepProps) {
   return (
     <>
       <PlacesList order={order} />

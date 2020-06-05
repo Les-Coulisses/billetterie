@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
-import { useOrderContext } from '../../../../hooks/OrderContext';
-import useFetchPrices from '../../../../hooks/useFetchPrices';
+import React, { useState, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import ModalInfosPlace from './ModalInfosPlace';
+import { OrderDto, PriceDto } from 'types';
 
-export default function SelectPrice({ order, setOrder, setOpen }) {
-  const [prices] = useFetchPrices(
-    order.performance.alternative_id,
-    order.category !== undefined ? order.category.alternative_id : undefined
-  );
-  const handleSelectPrice = price => {
+interface SelectPriceProps {
+  order: OrderDto;
+  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
+  setOpen: Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SelectPrice({
+  order,
+  setOrder,
+  setOpen
+}: SelectPriceProps) {
+  const handleSelectPrice = (price: PriceDto) => {
     setOrder({ ...order, price: price });
     setOpen(true);
   };
 
-  if (prices === undefined) {
+  const prices: PriceDto[] =
+    order.category?.prices !== undefined ? order.category.prices : [];
+
+  if (prices.length === 0) {
     return <p>Catégorie non choisie</p>;
   } else {
     return (
       <>
         <ul>
           {prices.map(price => (
-            <li key={price.id}>
-              {price.rate.name}: {price.amount}&euro;
+            <li key={price.alternative_id}>
+              {price?.rate?.name}: {price.amount}&euro;
               <Button
                 onClick={() => {
                   handleSelectPrice(price);

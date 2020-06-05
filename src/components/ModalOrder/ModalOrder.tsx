@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import StepperOrder from './StepperOrder';
-import { OrderProvider } from '../../hooks/OrderContext';
+import { OrderDto, ModalProps, ShowDto } from '../../types';
+import { graphql, useStaticQuery } from 'gatsby';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,39 +24,110 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SimpleModal({ opened, close }) {
-  const classes = useStyles();
-  const initialValues = {
-    show: undefined,
-    performance: undefined,
-    category: undefined,
-    places: []
+interface ModalOrderProps extends ModalProps {
+  order: OrderDto;
+  setOrder: Dispatch<SetStateAction<OrderDto>>;
+  goNext: () => void;
+  goPrev: () => void;
+  activeStep: number;
+}
+
+const query = graphql`
+  {
+    allInternalShows(filter: { id: { ne: "dummy" } }) {
+      edges {
+        node {
+          id
+          alternative_id
+          title
+          slug
+          featuredCover {
+            childImageSharp {
+              fluid(maxWidth: 1500) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+          performances {
+            alternative_id
+            show_id
+            ticketing_opened
+            programmed_closing
+            datetime_closing
+            programmed_opening
+            datetime_opening
+            date {
+              timestamp
+              default
+              french
+            }
+            categories {
+              alternative_id
+              name
+              nb_places
+              prices {
+                alternative_id
+                amount
+                rate {
+                  alternative_id
+                  name
+                  group_rate
+                  min
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+type InternalShowResult = {
+  allInternalShows: {
+    edges: { node: ShowDto }[];
   };
-  const [order, setOrder] = useState(initialValues);
-  // getModalStyle is not a pure function, we roll the style only on the first render
+};
+
+export default function ModalOrder({
+  opened,
+  close,
+  order,
+  setOrder,
+  activeStep,
+  goPrev,
+  goNext
+}: ModalOrderProps) {
+  const classes = useStyles();
+  const data: InternalShowResult = useStaticQuery(query);
+  const shows: ShowDto[] = data.allInternalShows.edges.map(item => item.node);
 
   const body = (
     <div className={classes.paper}>
-      <StepperOrder />
+      <StepperOrder
+        order={order}
+        setOrder={setOrder}
+        shows={shows}
+        activeStep={activeStep}
+        goNext={goNext}
+        goPrev={goPrev}
+      />
     </div>
   );
 
   const handleClose = () => {
-    setOrder(initialValues);
     close();
   };
 
   return (
-    <OrderProvider value={{ order, setOrder }}>
-      <Modal
-        open={opened || false}
-        onClose={handleClose}
-        className={classes.modal}
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'
-      >
-        <Fade in={opened}>{body}</Fade>
-      </Modal>
-    </OrderProvider>
+    <Modal
+      open={opened || false}
+      onClose={handleClose}
+      className={classes.modal}
+      aria-labelledby='simple-modal-title'
+      aria-describedby='simple-modal-description'
+    >
+      <Fade in={opened}>{body}</Fade>
+    </Modal>
   );
 }

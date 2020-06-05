@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
-import SimpleModal from './ModalOrder/ModalOrder';
+import ModalOrder from './ModalOrder/ModalOrder';
+import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import { OrderDto } from '../types';
 
-const styles = {
+type NavBarCssProperties = {
+  navbar: CSSProperties;
+  divider: CSSProperties;
+  verticalDivider: CSSProperties;
+  items: CSSProperties;
+  link: CSSProperties;
+};
+const styles: NavBarCssProperties = {
   navbar: {
     height: 77,
     width: '100%',
@@ -55,7 +64,16 @@ const query = graphql`
 
 const Navbar = () => {
   const data = useStaticQuery(query);
-  const [open, setOpen] = React.useState(false);
+  const [activeStep, setActiveStep] = React.useState<number>(1);
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const initialOrder: OrderDto = {
+    show: undefined,
+    performance: undefined,
+    category: undefined,
+    places: []
+  };
+  const [order, setOrder] = useState<OrderDto>(initialOrder);
 
   const handleOpen = () => {
     setOpen(true);
@@ -63,6 +81,14 @@ const Navbar = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   return (
@@ -90,7 +116,15 @@ const Navbar = () => {
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
-      <SimpleModal opened={open} close={handleClose} />
+      <ModalOrder
+        activeStep={activeStep}
+        goNext={handleNext}
+        goPrev={handleBack}
+        close={handleClose}
+        order={order}
+        setOrder={setOrder}
+        opened={open}
+      />
     </div>
   );
 };

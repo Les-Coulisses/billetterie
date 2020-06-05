@@ -38,66 +38,13 @@ module.exports = {
     {
       resolve: 'gatsby-source-apiserver',
       options: {
-        url: `${apiUrl}/gatsby/performances`,
+        url: `${apiUrl}/gatsby`,
         method: 'get',
         headers: {
           'Content-Type': 'application/json'
-        },
-        typePrefix: 'internal__',
-        name: 'performances',
-        verboseOutput: true
-      }
-    },
-    {
-      resolve: 'gatsby-source-apiserver',
-      options: {
-        url: `${apiUrl}/gatsby/categories`,
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        typePrefix: 'internal__',
-        name: 'categories',
-        verboseOutput: true
-      }
-    },
-    {
-      resolve: 'gatsby-source-apiserver',
-      options: {
-        url: `${apiUrl}/gatsby/prices`,
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        typePrefix: 'internal__',
-        name: 'prices',
-        verboseOutput: true
-      }
-    },
-    {
-      resolve: 'gatsby-source-apiserver',
-      options: {
-        url: `${apiUrl}/public/shows`,
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          Origin: 'http://localhost:8000'
         },
         typePrefix: 'internal__',
         name: 'shows',
-        verboseOutput: true
-      }
-    },
-    {
-      resolve: 'gatsby-source-apiserver',
-      options: {
-        url: `${apiUrl}/gatsby/domains`,
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        typePrefix: 'internal__',
-        name: 'domains',
         verboseOutput: true
       }
     }

@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { Button } from '@material-ui/core';
-import { useOrderContext } from '../../../../hooks/OrderContext';
-import useFetchPerformances from '../../../../hooks/useFetchPerformances';
+import { OrderStepProps, PerformanceDto, OrderDto } from '../../../../types';
 
-export default function PerformancesStep({ goNext }) {
-  const [order, setOrder] = useOrderContext();
-  const performanceHook = useFetchPerformances(order.show.alternative_id);
-  const [performances] = performanceHook;
+interface OrderPerformanceStepProps extends OrderStepProps {
+  goPrev: () => void;
+  order: OrderDto;
+  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
+}
 
-  const handleOnClick = perfSelected => {
+export default function PerformancesStep({
+  goNext,
+  goPrev,
+  order,
+  setOrder
+}: OrderPerformanceStepProps) {
+  if (order.show === undefined || order.show.performances === undefined) {
+    goPrev();
+    return <p>Impossible d'afficher cette étape</p>;
+  }
+
+  const handleOnClick = (perfSelected: PerformanceDto) => {
     setOrder({ ...order, performance: perfSelected, category: undefined });
     goNext();
   };
 
-  if (performances === undefined) {
-    return <p>test</p>;
-  }
+  const performances: PerformanceDto[] = order.show.performances;
 
   return (
     <>
       <h1>{order.show.title}</h1>
       <ul>
-        {performances.map(item => (
-          <li key={item.id}>
-            {item.date.french}
+        {performances.map((item: PerformanceDto) => (
+          <li key={item.alternative_id}>
+            {item.date !== undefined ? item.date.french : 'Date inconnue'}
             <Button
               onClick={() => {
                 handleOnClick(item);

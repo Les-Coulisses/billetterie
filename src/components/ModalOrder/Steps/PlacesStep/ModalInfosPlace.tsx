@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
-import { useOrderContext } from '../../../../hooks/OrderContext';
 import { TextField, Button } from '@material-ui/core';
-import { PriceDto } from '../../../../types';
+import { PriceDto, ModalProps, OrderDto } from '../../../../types';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,8 +34,15 @@ type PlaceType = {
   price: PriceDto | undefined;
 };
 
-export default function ModalInfosPlace({ opened, close }) {
-  const [order, setOrderNonNull] = useOrderContext();
+interface ModalInfosPlaceProps extends ModalProps {
+  order: OrderDto;
+}
+
+export default function ModalInfosPlace({
+  opened,
+  close,
+  order
+}: ModalInfosPlaceProps) {
   const classes = useStyles();
   const [place, setPlace] = useState<PlaceType>({
     name: '',
@@ -54,12 +60,12 @@ export default function ModalInfosPlace({ opened, close }) {
           } else {
             order.places = [place];
           }
-          setOrderNonNull(order);
           setPlace({
             name: '',
             firstName: '',
-            price: order.price.id
+            price: order.price
           });
+          console.log(place);
           close();
         }}
       >

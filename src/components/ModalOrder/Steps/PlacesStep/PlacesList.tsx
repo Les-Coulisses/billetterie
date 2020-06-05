@@ -1,15 +1,18 @@
 import React from 'react';
-import { useOrderContext } from '../../../../hooks/OrderContext';
+import { OrderDto } from '../../../../types';
 
-export default function PlacesList({ order }) {
+interface PlacesListProps {
+  order: OrderDto;
+}
+export default function PlacesList({ order }: PlacesListProps) {
   return (
     <>
       {Array.isArray(order.places) && (
         <ul>
           {order.places.map((place, index) => (
             <li key={index}>
-              {place.firstName} {place.name} {place.price.rate.name}{' '}
-              {place.price.amount} &euro;
+              {place.firstName} {place.name} {place?.price?.rate?.name}{' '}
+              {place?.price?.amount} &euro;
             </li>
           ))}
         </ul>
