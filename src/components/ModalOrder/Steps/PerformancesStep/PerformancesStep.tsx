@@ -1,19 +1,25 @@
-import React, { Dispatch } from 'react';
+import React, { useContext } from 'react';
 import { Button } from '@material-ui/core';
-import { OrderStepProps, PerformanceDto, OrderDto } from '../../../../types';
+import { OrderStepProps, PerformanceDto, OrderState } from '../../../../types';
+import { OrderStateContext } from '../../LinkOrder';
 
 interface OrderPerformanceStepProps extends OrderStepProps {
   goPrev: () => void;
-  order: OrderDto;
-  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
 }
 
 export default function PerformancesStep({
   goNext,
-  goPrev,
-  order,
-  setOrder
+  goPrev
 }: OrderPerformanceStepProps) {
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering ShowsStep, orderState has unexpected value undefined'
+    );
+  }
+  const order = orderState.order;
+  const setOrder = orderState.setOrder;
+
   if (order.show === undefined || order.show.performances === undefined) {
     goPrev();
     return <p>Impossible d'afficher cette étape</p>;

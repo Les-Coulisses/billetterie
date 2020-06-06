@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import { TextField, Button } from '@material-ui/core';
-import { PriceDto, ModalProps, OrderDto } from '../../../../types';
+import { PriceDto, ModalProps, OrderDto, OrderState } from '../../../../types';
+import { OrderStateContext } from '../../LinkOrder';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -34,15 +35,15 @@ type PlaceType = {
   price: PriceDto | undefined;
 };
 
-interface ModalInfosPlaceProps extends ModalProps {
-  order: OrderDto;
-}
-
-export default function ModalInfosPlace({
-  opened,
-  close,
-  order
-}: ModalInfosPlaceProps) {
+export default function ModalInfosPlace({ opened, close }: ModalProps) {
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering PlacesStep, orderState has unexpected value undefined'
+    );
+  }
+  const order = orderState.order;
+  const setOrder = orderState.setOrder;
   const classes = useStyles();
   const [place, setPlace] = useState<PlaceType>({
     name: '',

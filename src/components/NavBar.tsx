@@ -4,6 +4,7 @@ import Img from 'gatsby-image';
 import ModalOrder from './ModalOrder/ModalOrder';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import { OrderDto } from '../types';
+import LinkOrder from './ModalOrder/LinkOrder';
 
 type NavBarCssProperties = {
   navbar: CSSProperties;
@@ -64,32 +65,6 @@ const query = graphql`
 
 const Navbar = () => {
   const data = useStaticQuery(query);
-  const [activeStep, setActiveStep] = React.useState<number>(1);
-  const [open, setOpen] = React.useState<boolean>(false);
-
-  const initialOrder: OrderDto = {
-    show: undefined,
-    performance: undefined,
-    category: undefined,
-    places: []
-  };
-  const [order, setOrder] = useState<OrderDto>(initialOrder);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
 
   return (
     <div style={styles.navbar}>
@@ -110,21 +85,10 @@ const Navbar = () => {
         <Link to='/#' style={styles.link}>
           Contact
         </Link>
-        <Link to='/#' style={styles.link} onClick={handleOpen}>
-          Réserver
-        </Link>
+        <LinkOrder style={styles.link} />
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
-      <ModalOrder
-        activeStep={activeStep}
-        goNext={handleNext}
-        goPrev={handleBack}
-        close={handleClose}
-        order={order}
-        setOrder={setOrder}
-        opened={open}
-      />
     </div>
   );
 };

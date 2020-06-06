@@ -1,10 +1,16 @@
-import React from 'react';
-import { OrderDto } from '../../../../types';
+import React, { useContext } from 'react';
+import { OrderDto, OrderState } from '../../../../types';
+import { OrderStateContext } from '../../LinkOrder';
 
-interface PlacesListProps {
-  order: OrderDto;
-}
-export default function PlacesList({ order }: PlacesListProps) {
+export default function PlacesList() {
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering PlacesStep, orderState has unexpected value undefined'
+    );
+  }
+  const order = orderState.order;
+
   return (
     <>
       {Array.isArray(order.places) && (

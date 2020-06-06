@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 export type Image = {
   id?: string;
@@ -83,11 +83,16 @@ export type OrderDto = {
 
 export interface OrderStepProps {
   goNext: () => void;
-  order: OrderDto;
-  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
 }
 
 export interface ModalProps {
   opened?: boolean;
   close: () => void;
 }
+
+export type OrderState = {
+  order: OrderDto;
+  setOrder: Dispatch<SetStateAction<OrderDto>>;
+  activeStep: number;
+  setActiveStep: Dispatch<SetStateAction<number>>;
+};

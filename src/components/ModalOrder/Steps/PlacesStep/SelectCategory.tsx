@@ -1,16 +1,18 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useContext } from 'react';
 import { Button } from '@material-ui/core';
-import { CategoryDto, OrderDto } from 'types';
+import { CategoryDto, OrderDto, OrderState } from 'types';
+import { OrderStateContext } from '../../LinkOrder';
 
-interface SelectCategoryProps {
-  order: OrderDto;
-  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
-}
+export default function SelectCategory() {
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering PlacesStep, orderState has unexpected value undefined'
+    );
+  }
+  const order = orderState.order;
+  const setOrder = orderState.setOrder;
 
-export default function SelectCategory({
-  order,
-  setOrder
-}: SelectCategoryProps) {
   const handleOnClick = (categorySelected: CategoryDto) => {
     setOrder({ ...order, category: categorySelected });
   };

@@ -2,9 +2,9 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
-import StepperOrder from './StepperOrder';
 import { OrderDto, ModalProps, ShowDto } from '../../types';
 import { graphql, useStaticQuery } from 'gatsby';
+import StepperOrder from './StepperOrder';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,14 +23,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   }
 }));
-
-interface ModalOrderProps extends ModalProps {
-  order: OrderDto;
-  setOrder: Dispatch<SetStateAction<OrderDto>>;
-  goNext: () => void;
-  goPrev: () => void;
-  activeStep: number;
-}
 
 const query = graphql`
   {
@@ -89,29 +81,14 @@ type InternalShowResult = {
   };
 };
 
-export default function ModalOrder({
-  opened,
-  close,
-  order,
-  setOrder,
-  activeStep,
-  goPrev,
-  goNext
-}: ModalOrderProps) {
+export default function ModalOrder({ opened, close }: ModalProps) {
   const classes = useStyles();
   const data: InternalShowResult = useStaticQuery(query);
   const shows: ShowDto[] = data.allInternalShows.edges.map(item => item.node);
 
   const body = (
     <div className={classes.paper}>
-      <StepperOrder
-        order={order}
-        setOrder={setOrder}
-        shows={shows}
-        activeStep={activeStep}
-        goNext={goNext}
-        goPrev={goPrev}
-      />
+      <StepperOrder shows={shows} />
     </div>
   );
 

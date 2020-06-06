@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, TextField, FormControl } from '@material-ui/core';
 import PlacesList from '../PlacesStep/PlacesList';
-import { OrderStepProps } from '../../../../types';
+import { OrderStepProps, OrderState } from '../../../../types';
+import { OrderStateContext } from 'components/ModalOrder/LinkOrder';
 
-export default function OrderStep({ goNext, order, setOrder }: OrderStepProps) {
+export default function OrderStep({ goNext }: OrderStepProps) {
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering OrderStep, orderState has unexpected value undefined'
+    );
+  }
+  const order = orderState.order;
+  const setOrder = orderState.setOrder;
   return (
     <>
-      <PlacesList order={order} />
+      <PlacesList />
       <FormControl fullWidth>
         <TextField
           id='place-firstname'

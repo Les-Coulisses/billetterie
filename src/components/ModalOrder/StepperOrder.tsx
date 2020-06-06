@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -9,7 +9,8 @@ import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import OrderStep from './Steps/OrderStep/OrderStep';
-import { OrderDto, ShowDto } from 'types';
+import { OrderDto, ShowDto, OrderState } from 'types';
+import { OrderStateContext } from './LinkOrder';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,56 +38,38 @@ const getSteps = (order: OrderDto): (string | undefined)[] => {
 };
 
 interface StepperOrderProps {
-  order: OrderDto;
-  setOrder: Dispatch<React.SetStateAction<OrderDto>>;
   shows: ShowDto[];
-  activeStep: number;
-  goNext: () => void;
-  goPrev: () => void;
 }
 
-export default function StepperOrder({
-  order,
-  setOrder,
-  shows,
-  goNext,
-  goPrev,
-  activeStep
-}: StepperOrderProps) {
+export default function StepperOrder({ shows }: StepperOrderProps) {
   const classes = useStyles();
-  const steps = getSteps(order);
+  const orderState: OrderState | undefined = useContext(OrderStateContext);
+  if (orderState === undefined) {
+    throw new Error(
+      'rendering StepperOrder, orderState has unexpected value undefined'
+    );
+  }
+
+  const steps = getSteps(orderState.order);
+
+  const handleNext = () => {
+    orderState.setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    orderState.setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
 
   const getStepContent = (stepIndex: number) => {
     switch (stepIndex) {
       case 0:
-        return (
-          <ShowsStep
-            goNext={goNext}
-            order={order}
-            setOrder={setOrder}
-            shows={shows}
-          />
-        );
+        return <ShowsStep goNext={handleNext} shows={shows} />;
       case 1:
-        return (
-          <PerformancesStep
-            goNext={goNext}
-            goPrev={goPrev}
-            order={order}
-            setOrder={setOrder}
-          />
-        );
+        return <PerformancesStep goNext={handleNext} goPrev={handleBack} />;
       case 2:
-        return (
-          <PlacesStep
-            goNext={goNext}
-            goPrev={goPrev}
-            order={order}
-            setOrder={setOrder}
-          />
-        );
+        return <PlacesStep goNext={handleNext} goPrev={handleBack} />;
       case 3:
-        return <OrderStep goNext={goNext} order={order} setOrder={setOrder} />;
+        return <OrderStep goNext={handleNext} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -94,7 +77,7 @@ export default function StepperOrder({
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={orderState.activeStep} alternativeLabel>
         {steps.map(label => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -102,7 +85,7 @@ export default function StepperOrder({
         ))}
       </Stepper>
       <div>
-        {activeStep === steps.length ? (
+        {orderState.activeStep === steps.length ? (
           <div>
             <Typography className={classes.instructions}>
               All steps completed
@@ -110,12 +93,12 @@ export default function StepperOrder({
           </div>
         ) : (
           <div>
-            {activeStep !== 0 && (
-              <Button onClick={goPrev} className={classes.backButton}>
+            {orderState.activeStep !== 0 && (
+              <Button onClick={handleBack} className={classes.backButton}>
                 Retour
               </Button>
             )}
-            {getStepContent(activeStep)}
+            {getStepContent(orderState.activeStep)}
           </div>
         )}
       </div>
