@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button } from '@material-ui/core';
-import { OrderStepProps, PerformanceDto, OrderState } from '../../../../types';
-import { OrderStateContext } from '../../LinkOrder';
+import { OrderStepProps, PerformanceDto } from '../../../../types';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 interface OrderPerformanceStepProps extends OrderStepProps {
   goPrev: () => void;
@@ -11,14 +11,7 @@ export default function PerformancesStep({
   goNext,
   goPrev
 }: OrderPerformanceStepProps) {
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering ShowsStep, orderState has unexpected value undefined'
-    );
-  }
-  const order = orderState.order;
-  const setOrder = orderState.setOrder;
+  const [order, setOrder] = useOrderContext();
 
   if (order.show === undefined || order.show.performances === undefined) {
     goPrev();

@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import { TextField, Button } from '@material-ui/core';
-import { PriceDto, ModalProps, OrderDto, OrderState } from '../../../../types';
-import { OrderStateContext } from '../../LinkOrder';
+import { PriceDto, ModalProps } from '../../../../types';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,14 +36,7 @@ type PlaceType = {
 };
 
 export default function ModalInfosPlace({ opened, close }: ModalProps) {
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering PlacesStep, orderState has unexpected value undefined'
-    );
-  }
-  const order = orderState.order;
-  const setOrder = orderState.setOrder;
+  const [order, setOrder] = useOrderContext();
   const classes = useStyles();
   const [place, setPlace] = useState<PlaceType>({
     name: '',
@@ -56,11 +49,7 @@ export default function ModalInfosPlace({ opened, close }: ModalProps) {
         onSubmit={event => {
           event.preventDefault();
           place.price = order.price;
-          if (Array.isArray(order.places)) {
-            order.places.push(place);
-          } else {
-            order.places = [place];
-          }
+          setOrder({ ...order, places: [...order.places, place] });
           setPlace({
             name: '',
             firstName: '',

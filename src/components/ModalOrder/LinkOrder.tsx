@@ -2,15 +2,12 @@ import React, { useState, createContext } from 'react';
 import { Link } from 'gatsby';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import ModalOrder from './ModalOrder';
-import { OrderDto, OrderState } from 'types';
+import { OrderDto } from 'types';
+import { OrderState, OrderStateContext } from '../../hooks/OrderContext';
 
 type LinkOrderProps = {
   style: CSSProperties;
 };
-
-export const OrderStateContext = createContext<OrderState | undefined>(
-  undefined
-);
 
 const LinkOrder = ({ style }: LinkOrderProps) => {
   const [order, setOrder] = useState<OrderDto>({

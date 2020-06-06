@@ -1,22 +1,14 @@
-import React, { useState, Dispatch, useContext } from 'react';
+import React, { Dispatch } from 'react';
 import { Button } from '@material-ui/core';
-import ModalInfosPlace from './ModalInfosPlace';
-import { OrderDto, PriceDto, OrderState } from 'types';
-import { OrderStateContext } from '../../LinkOrder';
+import { PriceDto } from 'types';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 interface SelectPriceProps {
   setOpen: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SelectPrice({ setOpen }: SelectPriceProps) {
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering PlacesStep, orderState has unexpected value undefined'
-    );
-  }
-  const order = orderState.order;
-  const setOrder = orderState.setOrder;
+  const [order, setOrder] = useOrderContext();
 
   const handleSelectPrice = (price: PriceDto) => {
     setOrder({ ...order, price: price });

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
-import { OrderStepProps, ShowDto, OrderState } from '../../../../types';
-import { OrderStateContext } from '../../LinkOrder';
+import { OrderStepProps, ShowDto } from '../../../../types';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -23,15 +23,10 @@ interface ShowsStepProps extends OrderStepProps {
 
 export default function ShowsStep({ goNext, shows }: ShowsStepProps) {
   const classes = useStyles();
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering ShowsStep, orderState has unexpected value undefined'
-    );
-  }
+  const [order, setOrder] = useOrderContext();
 
   const handleOnClick = (showSelected: ShowDto) => {
-    orderState.setOrder({ ...orderState.order, show: showSelected });
+    setOrder({ ...order, show: showSelected });
     goNext();
   };
 

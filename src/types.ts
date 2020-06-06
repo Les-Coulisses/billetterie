@@ -89,10 +89,3 @@ export interface ModalProps {
   opened?: boolean;
   close: () => void;
 }
-
-export type OrderState = {
-  order: OrderDto;
-  setOrder: Dispatch<SetStateAction<OrderDto>>;
-  activeStep: number;
-  setActiveStep: Dispatch<SetStateAction<number>>;
-};

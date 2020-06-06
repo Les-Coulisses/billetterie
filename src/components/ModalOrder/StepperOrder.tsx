@@ -9,8 +9,12 @@ import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
 import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import OrderStep from './Steps/OrderStep/OrderStep';
-import { OrderDto, ShowDto, OrderState } from 'types';
-import { OrderStateContext } from './LinkOrder';
+import { OrderDto, ShowDto } from 'types';
+import { useOrderContext } from '../../hooks/OrderContext';
+
+interface StepperOrderProps {
+  shows: ShowDto[];
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,32 +36,26 @@ const getSteps = (order: OrderDto): (string | undefined)[] => {
     order.performance?.date?.french !== undefined
       ? order.performance.date.french
       : 'Représentations',
-    'Places',
+    order.places.length === 0
+      ? 'Places'
+      : order.places.length + ' place' + (order.places.length > 1 ? 's' : ''),
     'Informations'
   ];
 };
 
-interface StepperOrderProps {
-  shows: ShowDto[];
-}
-
 export default function StepperOrder({ shows }: StepperOrderProps) {
   const classes = useStyles();
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering StepperOrder, orderState has unexpected value undefined'
-    );
-  }
+  const [order, , activeStep, setActiveStep] = useOrderContext();
+  console.log('render stepper');
 
-  const steps = getSteps(orderState.order);
+  const steps = getSteps(order);
 
   const handleNext = () => {
-    orderState.setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep(activeStep + 1);
   };
 
   const handleBack = () => {
-    orderState.setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep(activeStep - 1);
   };
 
   const getStepContent = (stepIndex: number) => {
@@ -69,7 +67,7 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
       case 2:
         return <PlacesStep goNext={handleNext} goPrev={handleBack} />;
       case 3:
-        return <OrderStep goNext={handleNext} />;
+        return <OrderStep />;
       default:
         return 'Unknown stepIndex';
     }
@@ -77,7 +75,7 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={orderState.activeStep} alternativeLabel>
+      <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map(label => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -85,7 +83,7 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
         ))}
       </Stepper>
       <div>
-        {orderState.activeStep === steps.length ? (
+        {activeStep === steps.length ? (
           <div>
             <Typography className={classes.instructions}>
               All steps completed
@@ -93,12 +91,12 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
           </div>
         ) : (
           <div>
-            {orderState.activeStep !== 0 && (
+            {activeStep !== 0 && (
               <Button onClick={handleBack} className={classes.backButton}>
                 Retour
               </Button>
             )}
-            {getStepContent(orderState.activeStep)}
+            {getStepContent(activeStep)}
           </div>
         )}
       </div>

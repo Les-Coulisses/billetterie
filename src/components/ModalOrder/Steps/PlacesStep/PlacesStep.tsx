@@ -1,29 +1,22 @@
-import React, { useState, Dispatch, useContext } from 'react';
+import React, { useState } from 'react';
 import SelectCategory from './SelectCategory';
 import SelectPrice from './SelectPrice';
 import PlacesList from './PlacesList';
 import ModalInfosPlace from './ModalInfosPlace';
 import { Button } from '@material-ui/core';
-import { OrderStepProps, OrderDto, OrderState } from '../../../../types';
-import { OrderStateContext } from '../../LinkOrder';
+import { OrderStepProps } from '../../../../types';
+import { useOrderContext } from '../../../../hooks/OrderContext';
 
 interface PlacesStepProps extends OrderStepProps {
   goPrev: () => void;
 }
 
-export default function PlacesStep({ goNext, goPrev }: PlacesStepProps) {
-  const orderState: OrderState | undefined = useContext(OrderStateContext);
-  if (orderState === undefined) {
-    throw new Error(
-      'rendering PlacesStep, orderState has unexpected value undefined'
-    );
-  }
+export default function PlacesStep({ goNext }: PlacesStepProps) {
+  const [order] = useOrderContext();
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => {
     setOpen(false);
   };
-  const order = orderState.order;
-  const setOrder = orderState.setOrder;
 
   return (
     <>
