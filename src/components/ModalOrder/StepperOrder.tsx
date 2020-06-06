@@ -15,6 +15,8 @@ import { useOrderContext } from '../../hooks/OrderContext';
 
 interface StepperOrderProps {
   shows: ShowDto[];
+  activeStep: number;
+  setActiveStep: (step: number) => void;
 }
 
 type OrderStepProps = {
@@ -65,9 +67,13 @@ const getSteps = (order: OrderDto): OrderStepProps[] => {
   ];
 };
 
-export default function StepperOrder({ shows }: StepperOrderProps) {
+export default function StepperOrder({
+  shows,
+  activeStep,
+  setActiveStep
+}: StepperOrderProps) {
   const classes = useStyles();
-  const [order, , activeStep, setActiveStep] = useOrderContext();
+  const [order] = useOrderContext();
   console.log('render stepper');
 
   const steps = getSteps(order);
