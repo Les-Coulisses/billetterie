@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
@@ -15,6 +16,11 @@ import { useOrderContext } from '../../hooks/OrderContext';
 interface StepperOrderProps {
   shows: ShowDto[];
 }
+
+type OrderStepProps = {
+  disabled: boolean;
+  label: string;
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,16 +36,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const getSteps = (order: OrderDto): (string | undefined)[] => {
+const getSteps = (order: OrderDto): OrderStepProps[] => {
   return [
-    order.show?.title !== undefined ? order.show.title : 'Spectacles',
-    order.performance?.date?.french !== undefined
-      ? order.performance.date.french
-      : 'Représentations',
-    order.places.length === 0
-      ? 'Places'
-      : order.places.length + ' place' + (order.places.length > 1 ? 's' : ''),
-    'Informations'
+    {
+      disabled: false,
+      label: order.show?.title !== undefined ? order.show.title : 'Spectacles'
+    },
+    {
+      disabled: order.show === undefined,
+      label:
+        order.performance?.date?.french !== undefined
+          ? order.performance.date.french
+          : 'Représentations'
+    },
+    {
+      disabled: order.performance === undefined,
+      label:
+        order.places.length === 0
+          ? 'Places'
+          : order.places.length +
+            ' place' +
+            (order.places.length > 1 ? 's' : '')
+    },
+    {
+      disabled: order.places.length === 0,
+      label: 'Informations'
+    }
   ];
 };
 
@@ -76,9 +98,16 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+        {steps.map((stepItem, index) => (
+          <Step key={index}>
+            <StepButton
+              onClick={() => {
+                setActiveStep(index);
+              }}
+              disabled={stepItem.disabled}
+            >
+              <StepLabel>{stepItem.label}</StepLabel>
+            </StepButton>
           </Step>
         ))}
       </Stepper>
