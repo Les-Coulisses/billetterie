@@ -33,9 +33,9 @@ const LinkOrder = ({ style }: LinkOrderProps) => {
 
   return (
     <OrderStateContext.Provider value={initialContextValues}>
-      <Link to='/#' style={style} onClick={handleOpen}>
+      <span style={style} onClick={handleOpen}>
         Réserver
-      </Link>
+      </span>
 
       <ModalOrder
         close={handleClose}

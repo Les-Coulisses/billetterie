@@ -47,7 +47,8 @@ const styles: NavBarCssProperties = {
   },
   link: {
     textDecoration: 'none',
-    color: 'white'
+    color: 'white',
+    cursor: 'pointer'
   }
 };
 
@@ -63,7 +64,7 @@ const query = graphql`
   }
 `;
 
-const Navbar = () => {
+const NavBar = () => {
   const data = useStaticQuery(query);
 
   return (
@@ -93,4 +94,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;

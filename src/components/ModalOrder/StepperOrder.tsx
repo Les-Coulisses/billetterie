@@ -74,7 +74,6 @@ export default function StepperOrder({
 }: StepperOrderProps) {
   const classes = useStyles();
   const [order] = useOrderContext();
-  console.log('render stepper');
 
   const steps = getSteps(order);
 

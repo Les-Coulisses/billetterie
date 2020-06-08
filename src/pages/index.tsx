@@ -1,9 +1,8 @@
 import React from 'react';
 import '../scss/normalize.scss';
-import Navbar from '../components/NavBar';
+import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import ReactHelmet from '../components/ReactHelmet';
-import ModalOrder from '../components/ModalOrder/ModalOrder';
 
 const styles = {
   layout: {
@@ -15,8 +14,7 @@ const styles = {
 const IndexPage = () => (
   <div style={styles.layout}>
     <ReactHelmet />
-    <Navbar />
-    <ModalOrder />
+    <NavBar />
     <Header />
   </div>
 );
