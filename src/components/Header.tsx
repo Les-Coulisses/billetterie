@@ -7,8 +7,8 @@ const styles = {
     maxHeight: '100vh',
     height: '120%',
     overflow: 'hidden',
-    zIndex: -1,
-  },
+    zIndex: -1
+  }
 };
 
 const Header = () => {
@@ -16,21 +16,20 @@ const Header = () => {
     query {
       file(name: { eq: "header" }) {
         childImageSharp {
-          fluid {
+          fluid(maxWidth: 2000) {
             ...GatsbyImageSharpFluid
           }
         }
       }
     }
   `);
-  console.log(data.file.childImageSharp.fluid);
 
   return (
     <Img
       style={styles.image}
       fluid={data.file.childImageSharp.fluid}
       // fadeIn={false}
-      durationFadeIn={10000}
+      durationFadeIn={1000}
       draggable={false}
     />
   );

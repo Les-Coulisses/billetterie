@@ -1,21 +1,20 @@
 import React from 'react';
-
 import '../scss/normalize.scss';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import ReactHelmet from '../components/ReactHelmet';
 
 const styles = {
   layout: {
-    width: '100vw',
-    height: '100vh',
-  },
+    width: 'vw',
+    height: 'vh'
+  }
 };
 
 const IndexPage = () => (
   <div style={styles.layout}>
     <ReactHelmet />
-    <Navbar />
+    <NavBar />
     <Header />
   </div>
 );
