@@ -49,7 +49,7 @@ exports.onCreateNode = async ({
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
-  const showPage = path.resolve('./src/templates/ShowPage.js');
+  const showPage = path.resolve('./src/templates/ShowPage.tsx');
   return graphql(
     `
       {

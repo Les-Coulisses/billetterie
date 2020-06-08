@@ -55,7 +55,6 @@ export default function ModalInfosPlace({ opened, close }: ModalProps) {
             firstName: '',
             price: order.price
           });
-          console.log(place);
           close();
         }}
       >
