@@ -16,12 +16,13 @@ const LinkOrder = ({ style }: LinkOrderProps) => {
     category: undefined,
     places: []
   });
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [activeStep, setActiveStep] = React.useState<number>(1);
+  const [activeStep, setActiveStep] = useState<number>(0);
   const initialContextValues: OrderState = {
     order: order,
     setOrder: setOrder
   };
+
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleOpen = () => {
     setOpen(true);
