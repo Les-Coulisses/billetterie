@@ -1,29 +1,22 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import { OrderStepProps, PerformanceDto } from '../../../../types';
+import { PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import { getPerformances } from '../../../../utils';
 
-interface OrderPerformanceStepProps extends OrderStepProps {
-  goPrev: () => void;
-}
-
-export default function PerformancesStep({
-  goNext,
-  goPrev
-}: OrderPerformanceStepProps) {
-  const [order, setOrder] = useOrderContext();
+export default function PerformancesStep() {
+  const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
+  console.log('render performance step', order);
 
   if (order.show === undefined || order.show.performances === undefined) {
-    goPrev();
-    return <p>Impossible d'afficher cette étape</p>;
+    return <p>Impossible d'afficher les représentations</p>;
   }
 
   const handleOnClick = (perfSelected: PerformanceDto) => {
     setOrder({ ...order, performance: perfSelected, category: undefined });
-    goNext();
   };
 
-  const performances: PerformanceDto[] = order.show.performances;
+  const performances: PerformanceDto[] = getPerformances(order.show);
 
   return (
     <>

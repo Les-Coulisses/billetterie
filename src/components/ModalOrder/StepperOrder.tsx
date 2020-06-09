@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -12,16 +12,23 @@ import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import OrderStep from './Steps/OrderStep/OrderStep';
 import { OrderDto, ShowDto } from 'types';
 import { useOrderContext } from '../../hooks/OrderContext';
+import {
+  displayShowStep,
+  showLabelDisplayed,
+  displayPerformanceStep,
+  performanceLabelDisplayed,
+  displayCategoryStep,
+  placeLabelDisplayed
+} from './utils';
 
 interface StepperOrderProps {
   shows: ShowDto[];
-  activeStep: number;
-  setActiveStep: (step: number) => void;
 }
 
 type OrderStepProps = {
   disabled: boolean;
   label: string;
+  component: ReactElement;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -38,66 +45,56 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const getSteps = (order: OrderDto): OrderStepProps[] => {
-  return [
-    {
-      disabled: false,
-      label: order.show?.title !== undefined ? order.show.title : 'Spectacles'
-    },
-    {
-      disabled: order.show === undefined,
-      label:
-        order.performance?.date?.french !== undefined
-          ? order.performance.date.french
-          : 'Représentations'
-    },
-    {
-      disabled: order.performance === undefined,
-      label:
-        order.places.length === 0
-          ? 'Places'
-          : order.places.length +
-            ' place' +
-            (order.places.length > 1 ? 's' : '')
-    },
-    {
-      disabled: order.places.length === 0,
-      label: 'Informations'
-    }
-  ];
-};
-
-export default function StepperOrder({
-  shows,
-  activeStep,
-  setActiveStep
-}: StepperOrderProps) {
+export default function StepperOrder({ shows }: StepperOrderProps) {
   const classes = useStyles();
-  const [order] = useOrderContext();
-
-  const steps = getSteps(order);
-
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
+  const [order, , activeStep, setActiveStep] = useOrderContext();
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const getStepContent = (stepIndex: number) => {
-    switch (stepIndex) {
-      case 0:
-        return <ShowsStep goNext={handleNext} shows={shows} />;
-      case 1:
-        return <PerformancesStep goNext={handleNext} goPrev={handleBack} />;
-      case 2:
-        return <PlacesStep goNext={handleNext} goPrev={handleBack} />;
-      case 3:
-        return <OrderStep />;
-      default:
-        return 'Unknown stepIndex';
+  const getSteps = (order: OrderDto, shows: ShowDto[]): OrderStepProps[] => {
+    const steps: OrderStepProps[] = [];
+    if (displayShowStep(shows)) {
+      steps.push({
+        disabled: false,
+        label: showLabelDisplayed(order),
+        component: <ShowsStep shows={shows} />
+      });
     }
+
+    if (displayPerformanceStep(order)) {
+      steps.push({
+        disabled: order.show === undefined,
+        label: performanceLabelDisplayed(order),
+        component: <PerformancesStep />
+      });
+    }
+
+    steps.push({
+      disabled: order.performance === undefined,
+      label: placeLabelDisplayed(order),
+      component: <PlacesStep />
+    });
+
+    steps.push({
+      disabled: order.places.length === 0,
+      label: 'Informations',
+      component: <OrderStep />
+    });
+
+    return steps;
+  };
+
+  const steps = getSteps(order, shows);
+
+  const getStepContent = (stepIndex: number) => {
+    const step: OrderStepProps | undefined = steps[stepIndex];
+    if (step === undefined) {
+      return 'Unknown step';
+    }
+
+    return step.component;
   };
 
   return (

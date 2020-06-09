@@ -1,8 +1,9 @@
 import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
-import { OrderStepProps, ShowDto } from '../../../../types';
+import { ShowDto, PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import { getPerformances } from '../../../../utils';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -17,17 +18,23 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-interface ShowsStepProps extends OrderStepProps {
+interface ShowsStepProps {
   shows: ShowDto[];
 }
 
-export default function ShowsStep({ goNext, shows }: ShowsStepProps) {
+export default function ShowsStep({ shows }: ShowsStepProps) {
   const classes = useStyles();
-  const [order, setOrder] = useOrderContext();
+  const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
+  console.log('render show step', order);
 
   const handleOnClick = (showSelected: ShowDto) => {
     setOrder({ ...order, show: showSelected });
-    goNext();
+    const performances: PerformanceDto[] = getPerformances(showSelected);
+    if (performances.length === 1) {
+      setOrder({ ...order, show: showSelected, performance: performances[0] });
+    }
+    console.log('on chose show', order);
+    setActiveStep(activeStep + 1);
   };
 
   return (

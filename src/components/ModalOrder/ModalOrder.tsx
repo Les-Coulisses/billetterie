@@ -5,17 +5,13 @@ import Fade from '@material-ui/core/Fade';
 import { ModalProps, ShowDto } from '../../types';
 import { graphql, useStaticQuery } from 'gatsby';
 import StepperOrder from './StepperOrder';
+import { getPerformances } from '../../utils';
 
 type InternalShowResult = {
   allInternalShows: {
     edges: { node: ShowDto }[];
   };
 };
-
-interface ModalOrderProps extends ModalProps {
-  activeStep: number;
-  setActiveStep: (step: number) => void;
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -86,23 +82,16 @@ const query = graphql`
   }
 `;
 
-export default function ModalOrder({
-  opened,
-  close,
-  activeStep,
-  setActiveStep
-}: ModalOrderProps) {
+export default function ModalOrder({ opened, close }: ModalProps) {
   const classes = useStyles();
   const data: InternalShowResult = useStaticQuery(query);
-  const shows: ShowDto[] = data.allInternalShows.edges.map(item => item.node);
+  const shows: ShowDto[] = data.allInternalShows.edges
+    .map(item => item.node)
+    .filter(show => getPerformances(show).length > 0);
 
   const body = (
     <div className={classes.paper}>
-      <StepperOrder
-        shows={shows}
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-      />
+      <StepperOrder shows={shows} />
     </div>
   );
 

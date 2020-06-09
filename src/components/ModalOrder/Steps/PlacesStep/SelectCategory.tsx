@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import { CategoryDto } from 'types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import { getCategories } from '../../../../utils';
 
 export default function SelectCategory() {
   const [order, setOrder] = useOrderContext();
@@ -11,9 +12,7 @@ export default function SelectCategory() {
   };
 
   const categories: CategoryDto[] =
-    order.performance?.categories !== undefined
-      ? order.performance.categories
-      : [];
+    order.performance !== undefined ? getCategories(order.performance) : [];
 
   return (
     <>

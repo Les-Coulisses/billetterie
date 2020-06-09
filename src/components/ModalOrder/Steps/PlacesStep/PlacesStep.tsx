@@ -4,14 +4,9 @@ import SelectPrice from './SelectPrice';
 import PlacesList from './PlacesList';
 import ModalInfosPlace from './ModalInfosPlace';
 import { Button } from '@material-ui/core';
-import { OrderStepProps } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 
-interface PlacesStepProps extends OrderStepProps {
-  goPrev: () => void;
-}
-
-export default function PlacesStep({ goNext }: PlacesStepProps) {
+export default function PlacesStep() {
   const [order] = useOrderContext();
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => {
@@ -31,7 +26,6 @@ export default function PlacesStep({ goNext }: PlacesStepProps) {
         variant='contained'
         color='primary'
         disabled={order.places === undefined || order.places.length === 0}
-        onClick={goNext}
       >
         Suivant
       </Button>
