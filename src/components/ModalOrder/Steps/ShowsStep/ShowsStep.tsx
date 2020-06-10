@@ -3,7 +3,7 @@ import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
 import { ShowDto, PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
-import { getPerformances } from '../../../../utils';
+import { getPerformances, getCategories } from '../../../../utils';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -25,15 +25,29 @@ interface ShowsStepProps {
 export default function ShowsStep({ shows }: ShowsStepProps) {
   const classes = useStyles();
   const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
-  console.log('render show step', order);
 
   const handleOnClick = (showSelected: ShowDto) => {
     setOrder({ ...order, show: showSelected });
     const performances: PerformanceDto[] = getPerformances(showSelected);
     if (performances.length === 1) {
-      setOrder({ ...order, show: showSelected, performance: performances[0] });
+      const performance = performances[0];
+      const categories = getCategories(performance);
+      if (categories.length === 1) {
+        setOrder({
+          ...order,
+          show: showSelected,
+          performance: performance,
+          category: categories[0]
+        });
+      } else {
+        setOrder({
+          ...order,
+          show: showSelected,
+          performance: performance,
+          category: undefined
+        });
+      }
     }
-    console.log('on chose show', order);
     setActiveStep(activeStep + 1);
   };
 

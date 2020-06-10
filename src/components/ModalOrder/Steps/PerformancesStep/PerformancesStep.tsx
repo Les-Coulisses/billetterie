@@ -2,18 +2,27 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
-import { getPerformances } from '../../../../utils';
+import { getPerformances, getCategories } from '../../../../utils';
 
 export default function PerformancesStep() {
   const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
-  console.log('render performance step', order);
 
   if (order.show === undefined || order.show.performances === undefined) {
     return <p>Impossible d'afficher les représentations</p>;
   }
 
   const handleOnClick = (perfSelected: PerformanceDto) => {
-    setOrder({ ...order, performance: perfSelected, category: undefined });
+    const categories = getCategories(perfSelected);
+    if (categories.length === 1) {
+      setOrder({
+        ...order,
+        performance: perfSelected,
+        category: categories[0]
+      });
+    } else {
+      setOrder({ ...order, performance: perfSelected, category: undefined });
+    }
+    setActiveStep(activeStep + 1);
   };
 
   const performances: PerformanceDto[] = getPerformances(order.show);
