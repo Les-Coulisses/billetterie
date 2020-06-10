@@ -1,4 +1,4 @@
-const apiUrl = 'http://les-coulisses.touchard.bzh/api';
+const API_URL = 'http://les-coulisses.touchard.bzh/api';
 module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -38,7 +38,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-apiserver',
       options: {
-        url: `${apiUrl}/gatsby`,
+        url: `${API_URL}/gatsby`,
         method: 'get',
         headers: {
           'Content-Type': 'application/json'

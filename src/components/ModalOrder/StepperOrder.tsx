@@ -1,10 +1,9 @@
-import React, { Dispatch, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepButton from '@material-ui/core/StepButton';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShowsStep from './Steps/ShowsStep/ShowsStep';
 import PlacesStep from './Steps/PlacesStep/PlacesStep';
@@ -12,16 +11,22 @@ import PerformancesStep from './Steps/PerformancesStep/PerformancesStep';
 import OrderStep from './Steps/OrderStep/OrderStep';
 import { OrderDto, ShowDto } from 'types';
 import { useOrderContext } from '../../hooks/OrderContext';
+import {
+  hasToDisplayShowStep,
+  getShowLabel,
+  hasToDisplayPerformanceStep,
+  getPerformanceLabel,
+  getPlaceLabel
+} from './utils';
 
 interface StepperOrderProps {
   shows: ShowDto[];
-  activeStep: number;
-  setActiveStep: (step: number) => void;
 }
 
 type OrderStepProps = {
   disabled: boolean;
   label: string;
+  component: ReactElement;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -38,66 +43,52 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const getSteps = (order: OrderDto): OrderStepProps[] => {
-  return [
-    {
+const getSteps = (order: OrderDto, shows: ShowDto[]): OrderStepProps[] => {
+  const steps: OrderStepProps[] = [];
+  if (hasToDisplayShowStep(shows)) {
+    steps.push({
       disabled: false,
-      label: order.show?.title !== undefined ? order.show.title : 'Spectacles'
-    },
-    {
+      label: getShowLabel(order),
+      component: <ShowsStep shows={shows} />
+    });
+  }
+
+  if (hasToDisplayPerformanceStep(order)) {
+    steps.push({
       disabled: order.show === undefined,
-      label:
-        order.performance?.date?.french !== undefined
-          ? order.performance.date.french
-          : 'Représentations'
-    },
-    {
-      disabled: order.performance === undefined,
-      label:
-        order.places.length === 0
-          ? 'Places'
-          : order.places.length +
-            ' place' +
-            (order.places.length > 1 ? 's' : '')
-    },
-    {
-      disabled: order.places.length === 0,
-      label: 'Informations'
-    }
-  ];
+      label: getPerformanceLabel(order),
+      component: <PerformancesStep />
+    });
+  }
+
+  steps.push({
+    disabled: order.performance === undefined,
+    label: getPlaceLabel(order),
+    component: <PlacesStep />
+  });
+
+  steps.push({
+    disabled: order.places.length === 0,
+    label: 'Informations',
+    component: <OrderStep />
+  });
+
+  return steps;
 };
 
-export default function StepperOrder({
-  shows,
-  activeStep,
-  setActiveStep
-}: StepperOrderProps) {
+export default function StepperOrder({ shows }: StepperOrderProps) {
   const classes = useStyles();
-  const [order] = useOrderContext();
+  const [order, , activeStep, setActiveStep] = useOrderContext();
 
-  const steps = getSteps(order);
-
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+  const steps = getSteps(order, shows);
 
   const getStepContent = (stepIndex: number) => {
-    switch (stepIndex) {
-      case 0:
-        return <ShowsStep goNext={handleNext} shows={shows} />;
-      case 1:
-        return <PerformancesStep goNext={handleNext} goPrev={handleBack} />;
-      case 2:
-        return <PlacesStep goNext={handleNext} goPrev={handleBack} />;
-      case 3:
-        return <OrderStep />;
-      default:
-        return 'Unknown stepIndex';
+    const step: OrderStepProps | undefined = steps[stepIndex];
+    if (step === undefined) {
+      return 'Unknown step';
     }
+
+    return step.component;
   };
 
   return (
@@ -124,14 +115,7 @@ export default function StepperOrder({
             </Typography>
           </div>
         ) : (
-          <div>
-            {activeStep !== 0 && (
-              <Button onClick={handleBack} className={classes.backButton}>
-                Retour
-              </Button>
-            )}
-            {getStepContent(activeStep)}
-          </div>
+          <div>{getStepContent(activeStep)}</div>
         )}
       </div>
     </div>

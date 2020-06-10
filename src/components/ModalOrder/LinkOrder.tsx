@@ -19,7 +19,9 @@ const LinkOrder = ({ style }: LinkOrderProps) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const initialContextValues: OrderState = {
     order: order,
-    setOrder: setOrder
+    setOrder: setOrder,
+    activeStep: activeStep,
+    setActiveStep: setActiveStep
   };
 
   const [open, setOpen] = React.useState<boolean>(false);
@@ -38,12 +40,7 @@ const LinkOrder = ({ style }: LinkOrderProps) => {
         Réserver
       </span>
 
-      <ModalOrder
-        close={handleClose}
-        opened={open}
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-      />
+      <ModalOrder close={handleClose} opened={open} />
     </OrderStateContext.Provider>
   );
 };

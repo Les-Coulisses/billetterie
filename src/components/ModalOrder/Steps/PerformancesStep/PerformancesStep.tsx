@@ -1,47 +1,59 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import { OrderStepProps, PerformanceDto } from '../../../../types';
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Divider
+} from '@material-ui/core';
+import { PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import { getPerformances, getCategories } from '../../../../utils';
 
-interface OrderPerformanceStepProps extends OrderStepProps {
-  goPrev: () => void;
-}
-
-export default function PerformancesStep({
-  goNext,
-  goPrev
-}: OrderPerformanceStepProps) {
-  const [order, setOrder] = useOrderContext();
+export default function PerformancesStep() {
+  const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
 
   if (order.show === undefined || order.show.performances === undefined) {
-    goPrev();
-    return <p>Impossible d'afficher cette étape</p>;
+    return <p>Impossible d'afficher les représentations</p>;
   }
 
   const handleOnClick = (perfSelected: PerformanceDto) => {
-    setOrder({ ...order, performance: perfSelected, category: undefined });
-    goNext();
+    const categories = getCategories(perfSelected);
+    if (categories.length === 1) {
+      setOrder({
+        ...order,
+        performance: perfSelected,
+        category: categories[0]
+      });
+    } else {
+      setOrder({ ...order, performance: perfSelected, category: undefined });
+    }
+    setActiveStep(activeStep + 1);
   };
 
-  const performances: PerformanceDto[] = order.show.performances;
+  const performances: PerformanceDto[] = getPerformances(order.show);
 
   return (
     <>
-      <h1>{order.show.title}</h1>
-      <ul>
-        {performances.map((item: PerformanceDto) => (
-          <li key={item.alternative_id}>
-            {item.date !== undefined ? item.date.french : 'Date inconnue'}
-            <Button
-              onClick={() => {
-                handleOnClick(item);
-              }}
-            >
-              Choisir
-            </Button>
-          </li>
+      <Typography variant={'h4'}>{order.show.title}</Typography>
+      <List>
+        {performances.map((item, index) => (
+          <div key={index}>
+            <ListItem button>
+              <ListItemText
+                onClick={() => {
+                  handleOnClick(item);
+                }}
+                primary={
+                  item.date !== undefined ? item.date.french : 'Date inconnue'
+                }
+                secondary={getCategories(item).length + ' catégories'}
+              />
+            </ListItem>
+            <Divider />
+          </div>
         ))}
-      </ul>
+      </List>
     </>
   );
 }

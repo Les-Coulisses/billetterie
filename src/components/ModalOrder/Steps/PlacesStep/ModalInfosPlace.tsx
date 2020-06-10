@@ -10,9 +10,11 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: 'absolute',
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+    padding: theme.spacing(2, 4, 3),
+    '&:focus': {
+      outline: 'none'
+    }
   },
   modal: {
     display: 'flex',
@@ -98,7 +100,7 @@ export default function ModalInfosPlace({ opened, close }: ModalProps) {
         aria-labelledby='simple-modal-title'
         aria-describedby='simple-modal-description'
       >
-        <Fade in={opened}>{body}</Fade>
+        {body}
       </Modal>
     </>
   );

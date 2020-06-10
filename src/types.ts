@@ -81,11 +81,7 @@ export type OrderDto = {
   show?: ShowDto;
 };
 
-export interface OrderStepProps {
-  goNext: () => void;
-}
-
 export interface ModalProps {
-  opened?: boolean;
+  opened: boolean;
   close: () => void;
 }
