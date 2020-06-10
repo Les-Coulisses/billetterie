@@ -1,7 +1,7 @@
 import React from 'react';
 import Img from 'gatsby-image';
 import { makeStyles, Button } from '@material-ui/core';
-import { ShowDto, PerformanceDto } from '../../../../types';
+import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
 
@@ -28,7 +28,7 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
 
   const handleOnClick = (showSelected: ShowDto) => {
     setOrder({ ...order, show: showSelected });
-    const performances: PerformanceDto[] = getPerformances(showSelected);
+    const performances = getPerformances(showSelected);
     if (performances.length === 1) {
       const performance = performances[0];
       const categories = getCategories(performance);

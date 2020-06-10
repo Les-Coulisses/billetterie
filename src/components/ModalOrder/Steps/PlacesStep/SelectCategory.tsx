@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '@material-ui/core';
 import { CategoryDto } from 'types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
