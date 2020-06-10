@@ -10,25 +10,11 @@ import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
 
-const useStyles = makeStyles(() => ({
-  list: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  showItem: {
-    flex: '25%'
-  }
-}));
-
 interface ShowsStepProps {
   shows: ShowDto[];
 }
 
 export default function ShowsStep({ shows }: ShowsStepProps) {
-  const classes = useStyles();
   const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
 
   const handleOnClick = (showSelected: ShowDto) => {
@@ -58,8 +44,8 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
 
   return (
     <List>
-      {shows.map(item => (
-        <>
+      {shows.map((item, index) => (
+        <div key={index}>
           <ListItem button>
             <ListItemText
               onClick={() => {
@@ -70,7 +56,7 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
             />
           </ListItem>
           <Divider />
-        </>
+        </div>
       ))}
     </List>
   );

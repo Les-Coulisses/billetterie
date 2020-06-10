@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 
 export default function PlacesStep() {
-  const [order] = useOrderContext();
+  const [order, , activeStep, setActiveStep] = useOrderContext();
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => {
     setOpen(false);
@@ -25,6 +25,9 @@ export default function PlacesStep() {
         type='submit'
         variant='contained'
         color='primary'
+        onClick={() => {
+          setActiveStep(activeStep + 1);
+        }}
         disabled={order.places === undefined || order.places.length === 0}
       >
         Suivant

@@ -37,8 +37,8 @@ export default function PerformancesStep() {
     <>
       <Typography variant={'h4'}>{order.show.title}</Typography>
       <List>
-        {performances.map((item: PerformanceDto) => (
-          <>
+        {performances.map((item, index) => (
+          <div key={index}>
             <ListItem button>
               <ListItemText
                 onClick={() => {
@@ -51,7 +51,7 @@ export default function PerformancesStep() {
               />
             </ListItem>
             <Divider />
-          </>
+          </div>
         ))}
       </List>
     </>
