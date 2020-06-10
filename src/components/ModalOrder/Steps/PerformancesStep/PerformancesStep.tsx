@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Divider
+} from '@material-ui/core';
 import { PerformanceDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
@@ -29,21 +35,25 @@ export default function PerformancesStep() {
 
   return (
     <>
-      <h1>{order.show.title}</h1>
-      <ul>
+      <Typography variant={'h4'}>{order.show.title}</Typography>
+      <List>
         {performances.map((item: PerformanceDto) => (
-          <li key={item.alternative_id}>
-            {item.date !== undefined ? item.date.french : 'Date inconnue'}
-            <Button
-              onClick={() => {
-                handleOnClick(item);
-              }}
-            >
-              Choisir
-            </Button>
-          </li>
+          <>
+            <ListItem button>
+              <ListItemText
+                onClick={() => {
+                  handleOnClick(item);
+                }}
+                primary={
+                  item.date !== undefined ? item.date.french : 'Date inconnue'
+                }
+                secondary={getCategories(item).length + ' catégories'}
+              />
+            </ListItem>
+            <Divider />
+          </>
         ))}
-      </ul>
+      </List>
     </>
   );
 }

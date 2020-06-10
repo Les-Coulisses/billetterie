@@ -82,6 +82,6 @@ export type OrderDto = {
 };
 
 export interface ModalProps {
-  opened?: boolean;
+  opened: boolean;
   close: () => void;
 }

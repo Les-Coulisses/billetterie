@@ -1,6 +1,11 @@
 import React from 'react';
-import Img from 'gatsby-image';
-import { makeStyles, Button } from '@material-ui/core';
+import {
+  makeStyles,
+  List,
+  ListItem,
+  ListItemText,
+  Divider
+} from '@material-ui/core';
 import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
@@ -52,26 +57,21 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
   };
 
   return (
-    <ul className={classes.list}>
+    <List>
       {shows.map(item => (
-        <li className={classes.showItem} key={item.id}>
-          {item?.featuredCover?.childImageSharp?.fluid !== undefined && (
-            <Img
-              durationFadeIn={1000}
-              draggable={false}
-              fluid={item.featuredCover.childImageSharp.fluid}
+        <>
+          <ListItem button>
+            <ListItemText
+              onClick={() => {
+                handleOnClick(item);
+              }}
+              primary={item.title}
+              secondary={getPerformances(item).length + ' représentations'}
             />
-          )}
-          <p>{item.title}</p>
-          <Button
-            onClick={() => {
-              handleOnClick(item);
-            }}
-          >
-            Prendre un billet
-          </Button>
-        </li>
+          </ListItem>
+          <Divider />
+        </>
       ))}
-    </ul>
+    </List>
   );
 }

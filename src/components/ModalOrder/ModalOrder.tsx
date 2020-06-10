@@ -1,11 +1,19 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Fade from '@material-ui/core/Fade';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
 import { ModalProps, ShowDto } from '../../types';
 import { graphql, useStaticQuery } from 'gatsby';
 import StepperOrder from './StepperOrder';
 import { getPerformances } from '../../utils';
+import CloseIcon from '@material-ui/icons/Close';
+import { TransitionProps } from '@material-ui/core/transitions';
+import {
+  Slide,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography
+} from '@material-ui/core';
 
 type InternalShowResult = {
   allInternalShows: {
@@ -13,23 +21,24 @@ type InternalShowResult = {
   };
 };
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    position: 'absolute',
-    width: '75vw',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    overflowY: 'scroll',
-    height: '88vh',
-    marginTop: '2vh'
-  },
-  modal: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appBar: {
+      position: 'relative'
+    },
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1
+    }
+  })
+);
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 const query = graphql`
   {
@@ -89,25 +98,33 @@ export default function ModalOrder({ opened, close }: ModalProps) {
     .map(item => item.node)
     .filter(show => getPerformances(show).length > 0);
 
-  const body = (
-    <div className={classes.paper}>
-      <StepperOrder shows={shows} />
-    </div>
-  );
-
   const handleClose = () => {
     close();
   };
 
   return (
-    <Modal
-      open={opened || false}
+    <Dialog
+      fullScreen
+      open={opened}
       onClose={handleClose}
-      className={classes.modal}
-      aria-labelledby='simple-modal-title'
-      aria-describedby='simple-modal-description'
+      TransitionComponent={Transition}
     >
-      <Fade in={opened}>{body}</Fade>
-    </Modal>
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            edge='start'
+            color='inherit'
+            onClick={handleClose}
+            aria-label='close'
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant='h6' className={classes.title}>
+            Réservation
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <StepperOrder shows={shows} />
+    </Dialog>
   );
 }
