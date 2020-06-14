@@ -1,4 +1,4 @@
-const API_URL = 'http://les-coulisses.touchard.bzh/api';
+const API_URL = 'http://localhost/laravel-api/public/api';
 module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -44,7 +44,7 @@ module.exports = {
           'Content-Type': 'application/json'
         },
         typePrefix: 'internal__',
-        name: 'shows',
+        name: 'accounts',
         verboseOutput: true
       }
     }
