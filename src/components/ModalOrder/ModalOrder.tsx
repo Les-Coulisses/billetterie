@@ -96,7 +96,6 @@ const query = graphql`
 export default function ModalOrder({ opened, close }: ModalProps) {
   const classes = useStyles();
   const data: InternalShowResult = useStaticQuery(query);
-  console.log('results', data);
   const shows: ShowDto[] = data.allInternalAccounts.edges[0].node.shows.filter(
     show => getPerformances(show).length > 0
   );

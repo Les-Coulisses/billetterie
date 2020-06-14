@@ -8,9 +8,9 @@ type ShowPageProps = {
 };
 
 const ShowPage = ({ pageContext, data }: ShowPageProps) => {
-  const { fluid: coverFluid } = data.internalAccounts.shows.filter(
-    (show: any) => show.slug === pageContext.slug
-  )[0].featuredCover.childImageSharp;
+  const { fluid: coverFluid } = data.internalAccounts.shows
+    .filter((show: any) => show.slug === pageContext.slug)
+    .shift().featuredCover.childImageSharp;
 
   return (
     <div
