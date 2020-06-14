@@ -67,6 +67,11 @@ export type ShowDto = {
   performances: PerformanceDto[];
 };
 
+export type AccountDto = {
+  id?: number;
+  shows: ShowDto[];
+};
+
 export type PlaceDto = {
   name?: string;
   firstName?: string;

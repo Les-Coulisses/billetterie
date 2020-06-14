@@ -44,7 +44,7 @@ module.exports = {
           'Content-Type': 'application/json'
         },
         typePrefix: 'internal__',
-        name: 'shows',
+        name: 'accounts',
         verboseOutput: true
       }
     }
