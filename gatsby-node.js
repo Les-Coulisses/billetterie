@@ -11,11 +11,68 @@ exports.createSchemaCustomization = ({ actions }) => {
       cover: String
       featuredCover: File @link(from: "featuredImg___NODE")
     }
+    type OptionsFile {
+      id: String
+      name: String
+      url: String!
+      img___NODE: File @link(from: "img___NODE")
+    }
+    type Options {
+      files: [OptionsFile]
+    }
+    type Element {
+      id: String
+      position: String
+      type: String
+      options: Options
+      alternative_children: [Element]
+    }
+    type Structure {
+      homPage: Element
+      showPage: Element
+    }
     type internal__accounts implements Node {
       id: String
       shows: [Show]
+      structure: Structure
     }
   `);
+};
+
+const createImageThumb = async (
+  element,
+  createNode,
+  store,
+  cache,
+  createNodeId
+) => {
+  if (Array.isArray(element.options.files)) {
+    element.options.files.forEach(async (file, index) => {
+      const fileNode = await createRemoteFileNode({
+        url: file.url, // string that points to the URL of the image
+        parentNodeId: file.id, // id of the parent node of the fileNode you are going to create
+        createNode, // helper function in gatsby-node to generate the node
+        createNodeId, // helper function in gatsby-node to generate the node id
+        cache, // Gatsby's cache
+        store // Gatsby's redux store
+      });
+      // if the file was created, attach the new node to the parent node
+      if (fileNode) {
+        // eslint-disable-next-line no-param-reassign
+        element.options.files[index].img___NODE = fileNode.id;
+        // eslint-disable-next-line no-console
+        console.info(`charge file ${file.url} in node ${fileNode.id}`);
+      }
+    });
+  }
+
+  if (Array.isArray(element.alternative_children)) {
+    element.alternative_children.forEach(async child => {
+      await createImageThumb(child, createNode, store, cache, createNodeId);
+    });
+  }
+
+  return element;
 };
 
 exports.onCreateNode = async ({
@@ -49,6 +106,16 @@ exports.onCreateNode = async ({
         );
       }
     });
+
+    if (node.structure !== undefined && node.structure.homePage !== undefined) {
+      node.structure.homePage = await createImageThumb(
+        node.structure.homePage,
+        createNode,
+        store,
+        cache,
+        createNodeId
+      );
+    }
   }
 };
 
