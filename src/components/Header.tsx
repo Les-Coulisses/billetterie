@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
-import ButtonPrimary from './Buttons/ButtonPrimary';
 
 const styles = {
   image: {
@@ -26,15 +25,13 @@ const Header = () => {
   `);
 
   return (
-    <>
-      <Img
-        style={styles.image}
-        fluid={data.file.childImageSharp.fluid}
-        // fadeIn={false}
-        durationFadeIn={1000}
-        draggable={false}
-      />
-    </>
+    <Img
+      style={styles.image}
+      fluid={data.file.childImageSharp.fluid}
+      // fadeIn={false}
+      durationFadeIn={1000}
+      draggable={false}
+    />
   );
 };
 
