@@ -1,0 +1,15 @@
+@import './variables.scss';
+
+.ButtonPrimary {
+  background: $dark;
+  color: $gold;
+
+  &:hover {
+    background: lighten($color: $dark, $amount: 15);
+  }
+
+  &:disabled {
+    background: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.26);
+  }
+}
