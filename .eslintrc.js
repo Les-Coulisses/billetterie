@@ -22,6 +22,6 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'never'],
-    'operator-linebreak': ['error', 'after']
+    'linebreak-style': 0
   }
 };

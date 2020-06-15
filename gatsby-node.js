@@ -82,9 +82,13 @@ exports.onCreateNode = async ({
   cache,
   createNodeId
 }) => {
+  const nodeClone = node;
   // For all MarkdownRemark nodes that have a featured image url, call createRemoteFileNode
-  if (node.id !== 'dummy' && node.internal.type === 'internal__accounts') {
-    const shows = node.shows.filter(
+  if (
+    nodeClone.id !== 'dummy' &&
+    nodeClone.internal.type === 'internal__accounts'
+  ) {
+    const shows = nodeClone.shows.filter(
       show => show.cover !== null || show.cover !== undefined
     );
     shows.forEach(async (show, index) => {
@@ -99,7 +103,7 @@ exports.onCreateNode = async ({
       // if the file was created, attach the new node to the parent node
       if (fileNode) {
         // eslint-disable-next-line no-param-reassign
-        node.shows[index].featuredImg___NODE = fileNode.id;
+        nodeClone.shows[index].featuredImg___NODE = fileNode.id;
         // eslint-disable-next-line no-console
         console.info(
           `charge cover ${fileNode.id} for show ${show.id} ${show.slug}`
@@ -107,9 +111,12 @@ exports.onCreateNode = async ({
       }
     });
 
-    if (node.structure !== undefined && node.structure.homePage !== undefined) {
-      node.structure.homePage = await createImageThumb(
-        node.structure.homePage,
+    if (
+      nodeClone.structure !== undefined &&
+      nodeClone.structure.homePage !== undefined
+    ) {
+      nodeClone.structure.homePage = await createImageThumb(
+        nodeClone.structure.homePage,
         createNode,
         store,
         cache,
