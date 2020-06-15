@@ -1,6 +1,6 @@
 import React from 'react';
+import Dialog from '../Dialog/Dialog';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
 import { ModalProps, AccountDto, ShowDto } from '../../types';
 import { graphql, useStaticQuery } from 'gatsby';
 import StepperOrder from './StepperOrder';

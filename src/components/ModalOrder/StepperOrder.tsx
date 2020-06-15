@@ -12,8 +12,8 @@ import {
   getPerformanceLabel,
   getPlaceLabel
 } from './utils';
-import Stepper from 'components/Stepper/Stepper';
-import { Step } from 'components/types';
+import Stepper from '../../components/Stepper/Stepper';
+import { Step } from '../../components/types';
 
 interface StepperOrderProps {
   shows: ShowDto[];
@@ -59,9 +59,11 @@ export default function StepperOrder({ shows }: StepperOrderProps) {
 
   return (
     <Stepper
-      steps={steps}
       setActiveStep={setActiveStep}
       activeStep={activeStep}
-    />
+      alternativeLabel
+    >
+      {steps}
+    </Stepper>
   );
 }

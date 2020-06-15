@@ -1,14 +1,9 @@
-import { StepperProps as UIStepperProps } from '@material-ui/core/Stepper';
+import { StepperProps as MuiStepperProps } from '@material-ui/core/Stepper';
+import { ButtonProps as MuiButtonProps } from '@material-ui/core/Button';
+import { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog';
 
-export interface ButtonProps {
-  onClick?:
-    | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
-    | undefined;
-  className?: string | undefined;
-  children?: React.ReactNode;
-  disabled?: boolean | undefined;
-  type?: 'button' | 'submit' | 'reset' | undefined;
-}
+export interface ButtonProps extends MuiButtonProps {}
+export interface DialogProps extends MuiDialogProps {}
 
 export type Step = {
   label: string | undefined;
@@ -16,9 +11,8 @@ export type Step = {
   disabled: boolean | undefined;
 };
 
-export interface StepperProps {
-  steps: Step[];
+export interface StepperProps extends MuiStepperProps {
   setActiveStep: (activeStep: number) => void;
   activeStep: number;
-  stepProps?: UIStepperProps;
+  children: Step[];
 }

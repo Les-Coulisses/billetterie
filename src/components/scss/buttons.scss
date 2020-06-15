@@ -1,15 +1,31 @@
 @import './variables.scss';
 
-.ButtonPrimary {
-  background: $dark;
-  color: $gold;
+button.CoulissesButton {
+  border: 2px solid $dark;
 
-  &:hover {
-    background: lighten($color: $dark, $amount: 15);
+  &.CoulissesButtonPrimary {
+    background: $dark;
+    color: $gold;
+
+    &:hover {
+      background: lighten($color: $dark, $amount: 15);
+      border-color: lighten($color: $dark, $amount: 15);
+    }
+  }
+
+  &.CoulissesButtonGold {
+    background: $gold;
+    border-color: $gold;
+
+    &:hover {
+      background: lighten($color: $gold, $amount: 5);
+      border-color: lighten($color: $gold, $amount: 5);
+    }
   }
 
   &:disabled {
     background: rgba(0, 0, 0, 0.12);
     color: rgba(0, 0, 0, 0.26);
+    border: 0;
   }
 }

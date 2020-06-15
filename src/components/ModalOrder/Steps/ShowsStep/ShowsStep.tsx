@@ -9,6 +9,9 @@ import {
 import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
+import ButtonPrimary from 'components/Buttons/ButtonPrimary';
+import ButtonSecondary from 'components/Buttons/ButtonSecondary';
+import ButtonGold from 'components/Buttons/ButtonGold';
 
 interface ShowsStepProps {
   shows: ShowDto[];
@@ -43,21 +46,23 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
   };
 
   return (
-    <List>
-      {shows.map((item, index) => (
-        <div key={index}>
-          <ListItem button>
-            <ListItemText
-              onClick={() => {
-                handleOnClick(item);
-              }}
-              primary={item.title}
-              secondary={getPerformances(item).length + ' représentations'}
-            />
-          </ListItem>
-          <Divider />
-        </div>
-      ))}
-    </List>
+    <>
+      <List>
+        {shows.map((item, index) => (
+          <div key={index}>
+            <ListItem button>
+              <ListItemText
+                onClick={() => {
+                  handleOnClick(item);
+                }}
+                primary={item.title}
+                secondary={getPerformances(item).length + ' représentations'}
+              />
+            </ListItem>
+            <Divider />
+          </div>
+        ))}
+      </List>
+    </>
   );
 }

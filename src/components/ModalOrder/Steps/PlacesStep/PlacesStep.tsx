@@ -5,6 +5,8 @@ import PlacesList from './PlacesList';
 import ModalInfosPlace from './ModalInfosPlace';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import ButtonPrimary from '../../../Buttons/ButtonPrimary';
+import ButtonSecondary from '../../../Buttons/ButtonSecondary';
+import ButtonGold from '../../../Buttons/ButtonGold';
 
 export default function PlacesStep() {
   const [order, , activeStep, setActiveStep] = useOrderContext();
@@ -30,6 +32,9 @@ export default function PlacesStep() {
       >
         Suivant
       </ButtonPrimary>
+      <ButtonPrimary>Bouton primary</ButtonPrimary>
+      <ButtonSecondary>Bouton secondary</ButtonSecondary>
+      <ButtonGold>Bouton gold</ButtonGold>
     </>
   );
 }
