@@ -11,7 +11,7 @@ export default function ButtonGold(buttonProps: ButtonProps) {
     <Button
       {...{
         ...buttonProps,
-        className: classes + ' CoulissesButtonGold'
+        className: classes + 'CoulissesButtonGold '
       }}
     />
   );

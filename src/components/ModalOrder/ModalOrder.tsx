@@ -1,5 +1,6 @@
 import React from 'react';
 import Dialog from '../Dialog/Dialog';
+import Toolbar from '../Toolbar/Toolbar';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { ModalProps, AccountDto, ShowDto } from '../../types';
 import { graphql, useStaticQuery } from 'gatsby';
@@ -7,13 +8,7 @@ import StepperOrder from './StepperOrder';
 import { getPerformances } from '../../utils';
 import CloseIcon from '@material-ui/icons/Close';
 import { TransitionProps } from '@material-ui/core/transitions';
-import {
-  Slide,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography
-} from '@material-ui/core';
+import { Slide, AppBar, IconButton, Typography } from '@material-ui/core';
 
 type InternalShowResult = {
   allInternalAccounts: {

@@ -11,7 +11,7 @@ export default function ButtonPrimary(buttonProps: ButtonProps) {
     <Button
       {...{
         ...buttonProps,
-        className: classes + ' CoulissesButtonPrimary'
+        className: classes + 'CoulissesButtonPrimary '
       }}
     />
   );

@@ -20,7 +20,7 @@ export default function Stepper(props: StepperProps) {
 
   return (
     <>
-      <MuiStepper className='CoulissesStepper' {...props}>
+      <MuiStepper className='CoulissesStepper ' {...props}>
         {steps.map((stepItem, index) => (
           <MuiStep key={index}>
             <MuiStepButton

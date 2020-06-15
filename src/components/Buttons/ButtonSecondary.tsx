@@ -11,7 +11,7 @@ export default function ButtonSecondary(buttonProps: ButtonProps) {
     <Button
       {...{
         ...buttonProps,
-        className: classes + ' CoulissesButtonSecondary'
+        className: classes + 'CoulissesButtonSecondary '
       }}
     />
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dialog as MuiDialog } from '@material-ui/core';
 
-import '../scss/buttons.scss';
 import { DialogProps } from '../types';
 
 export default function Dialog(dialogProps: DialogProps) {
@@ -11,7 +10,7 @@ export default function Dialog(dialogProps: DialogProps) {
     <MuiDialog
       {...{
         ...dialogProps,
-        className: classes + ' CoulissesModal'
+        className: classes + 'CoulissesDialog '
       }}
     >
       {dialogProps.children}

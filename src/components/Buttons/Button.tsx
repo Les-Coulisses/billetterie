@@ -11,7 +11,7 @@ export default function Button(buttonProps: ButtonProps) {
     <MuiButton
       {...{
         ...buttonProps,
-        className: classes + ' CoulissesButton'
+        className: classes + 'CoulissesButton '
       }}
     >
       {buttonProps.children}
