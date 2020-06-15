@@ -104,6 +104,7 @@ exports.onCreateNode = async ({
       if (fileNode) {
         // eslint-disable-next-line no-param-reassign
         nodeClone.shows[index].featuredImg___NODE = fileNode.id;
+
         // eslint-disable-next-line no-console
         console.info(
           `charge cover ${fileNode.id} for show ${show.id} ${show.slug}`
