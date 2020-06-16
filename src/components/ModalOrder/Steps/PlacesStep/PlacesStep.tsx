@@ -3,8 +3,10 @@ import SelectCategory from './SelectCategory';
 import SelectPrice from './SelectPrice';
 import PlacesList from './PlacesList';
 import ModalInfosPlace from './ModalInfosPlace';
-import { Button } from '@material-ui/core';
 import { useOrderContext } from '../../../../hooks/OrderContext';
+import ButtonPrimary from '../../../Buttons/ButtonPrimary';
+import ButtonSecondary from '../../../Buttons/ButtonSecondary';
+import ButtonGold from '../../../Buttons/ButtonGold';
 
 export default function PlacesStep() {
   const [order, , activeStep, setActiveStep] = useOrderContext();
@@ -21,17 +23,18 @@ export default function PlacesStep() {
       <SelectPrice setOpen={setOpen} />
       <PlacesList />
       <ModalInfosPlace opened={open} close={handleClose} />
-      <Button
+      <ButtonPrimary
         type='submit'
-        variant='contained'
-        color='primary'
         onClick={() => {
           setActiveStep(activeStep + 1);
         }}
         disabled={order.places === undefined || order.places.length === 0}
       >
         Suivant
-      </Button>
+      </ButtonPrimary>
+      <ButtonPrimary>Bouton primary</ButtonPrimary>
+      <ButtonSecondary>Bouton secondary</ButtonSecondary>
+      <ButtonGold>Bouton gold</ButtonGold>
     </>
   );
 }
