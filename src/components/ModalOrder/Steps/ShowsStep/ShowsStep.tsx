@@ -1,8 +1,10 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { List, Typography } from '@material-ui/core';
 import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';
+import ShowItem from './ShowItem';
+import './ShowsStep.scss';
 
 interface ShowsStepProps {
   shows: ShowDto[];
@@ -37,21 +39,13 @@ export default function ShowsStep({ shows }: ShowsStepProps) {
   };
 
   return (
-    <List>
-      {shows.map((item, index) => (
-        <div key={index}>
-          <ListItem button>
-            <ListItemText
-              onClick={() => {
-                handleOnClick(item);
-              }}
-              primary={item.title}
-              secondary={getPerformances(item).length + ' représentations'}
-            />
-          </ListItem>
-          <Divider />
-        </div>
-      ))}
-    </List>
+    <div>
+      <Typography variant='h2'>Les spectacles</Typography>
+      <div className='ShowsList'>
+        {shows.map(item => (
+          <ShowItem onSelect={handleOnClick} show={item} />
+        ))}
+      </div>
+    </div>
   );
 }

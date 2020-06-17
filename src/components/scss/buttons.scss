@@ -13,6 +13,11 @@ button.CoulissesButton {
     }
   }
 
+  &.CoulissesButtonOutlinedGold {
+    border-color: $gold;
+    color: $gold;
+  }
+
   &.CoulissesButtonGold {
     background: $gold;
     border-color: $gold;

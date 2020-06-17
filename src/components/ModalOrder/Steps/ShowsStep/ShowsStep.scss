@@ -1,0 +1,21 @@
+@import '../../../scss/variables.scss';
+
+.ShowsList {
+  display: flex;
+  justify-content: center;
+  background: $grey-1;
+
+  .ShowItem {
+    display: flex;
+    flex-direction: column;
+
+    .ShowCover {
+      flex: 1;
+    }
+
+    .ShowListActions {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
