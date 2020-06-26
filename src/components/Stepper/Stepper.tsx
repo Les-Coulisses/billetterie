@@ -35,7 +35,7 @@ export default function Stepper({ setActiveStep, ...muiProps }: StepperProps) {
         ))}
       </MuiStepper>
       <div>
-        <div>{getStepContent(muiProps.activestep ?? 0)}</div>
+        <div>{getStepContent(muiProps.activeStep)}</div>
       </div>
     </>
   );
