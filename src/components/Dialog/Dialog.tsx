@@ -4,10 +4,10 @@ import { Dialog as MuiDialog } from '@material-ui/core';
 import { DialogProps } from '../types';
 import '../scss/dialog.scss';
 
-export default function Dialog(dialogProps: DialogProps) {
+export default function Dialog({ rounded, ...dialogProps }: DialogProps) {
   let classes =
     dialogProps.className === undefined ? '' : dialogProps.className;
-  classes += dialogProps.rounded === true ? ' CoulissesRoundedDialog ' : '';
+  classes += rounded === true ? ' CoulissesRoundedDialog ' : '';
   return (
     <MuiDialog
       {...{
