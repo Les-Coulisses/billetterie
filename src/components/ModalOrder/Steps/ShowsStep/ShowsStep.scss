@@ -1,0 +1,14 @@
+.CoulissesShowsList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  li {
+    flex-basis: 20%;
+    padding: 0 2em;
+  }
+}
