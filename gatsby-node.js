@@ -47,7 +47,8 @@ const createImgFluidNode = async (
   createNode,
   createNodeId
 ) => {
-  const fluidNode = await createRemoteFileNode({
+  console.info('start create fluid image', file.url);
+  return createRemoteFileNode({
     url: file.url,
     parentNodeId: file.id,
     createNode,
@@ -55,9 +56,6 @@ const createImgFluidNode = async (
     cache,
     store
   });
-
-  console.info(`charge file ${file.url} in node ${fluidNode.id}`);
-  return fluidNode.id;
 };
 
 const createImgFluidElement = async (
@@ -101,24 +99,6 @@ const createImgFluidElement = async (
   return element;
 };
 
-const createImgFluidShow = async (
-  show,
-  store,
-  cache,
-  createNode,
-  createNodeId
-) => {
-  const fileNodeId = await createImgFluidNode(
-    { url: show.cover, id: show.id },
-    store,
-    cache,
-    createNode,
-    createNodeId
-  );
-
-  return fileNodeId;
-};
-
 exports.onCreateNode = async ({
   node,
   actions: { createNode },
@@ -135,24 +115,28 @@ exports.onCreateNode = async ({
     const shows = nodeClone.shows.filter(
       show => show.cover !== null || show.cover !== undefined
     );
-    shows.forEach(async (show, index) => {
-      const fileNodeId = await createImgFluidShow(
-        show,
+
+    await shows.forEach(async (show, index) => {
+      createImgFluidNode(
+        { url: show.cover, id: show.id },
         store,
         cache,
         createNode,
         createNodeId
-      );
-      // if the file was created, attach the new node to the parent node
-      if (fileNodeId) {
-        // eslint-disable-next-line no-param-reassign
-        nodeClone.shows[index].featuredImg___NODE = fileNodeId;
-
-        // eslint-disable-next-line no-console
-        console.info(
-          `charge cover ${fileNodeId} for show ${show.id} ${show.slug}`
-        );
-      }
+      )
+        .then(fileNode => {
+          // if the file was created, attach the new node to the parent node
+          if (fileNode) {
+            console.info(
+              `fileNode for fluid cover ${fileNode.id} created successfully ${show.slug}`
+            );
+            // eslint-disable-next-line no-param-reassign
+            nodeClone.shows[index].featuredImg___NODE = fileNode.id;
+          }
+        })
+        .catch(error => {
+          console.error(`failed for fluid cover ${show.slug}`, error);
+        });
     });
 
     if (
@@ -166,6 +150,8 @@ exports.onCreateNode = async ({
         cache,
         createNodeId
       );
+    } else {
+      console.warn('No correct structure detected, no image to charge');
     }
   }
 };
