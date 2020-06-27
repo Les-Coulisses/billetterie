@@ -128,6 +128,7 @@ exports.onCreateNode = async ({
             );
             // eslint-disable-next-line no-param-reassign
             node.shows[index].featuredImg___NODE = fileNode.id;
+            console.log(`shows after add fluid to ${show.slug}`, node.shows);
           }
         })
         .catch(error => {
