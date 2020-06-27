@@ -39,7 +39,9 @@ export default function ShowsItem({ show }: ShowsItemProps) {
   };
   return (
     <div onClick={handleOnClick}>
-      <Img fluid={show.featuredCover?.childImageSharp.fluid} />
+      {show.featuredCover && (
+        <Img fluid={show.featuredCover?.childImageSharp.fluid} />
+      )}
     </div>
   );
 }

@@ -106,13 +106,9 @@ exports.onCreateNode = async ({
   cache,
   createNodeId
 }) => {
-  const nodeClone = node;
   // For all MarkdownRemark nodes that have a featured image url, call createRemoteFileNode
-  if (
-    nodeClone.id !== 'dummy' &&
-    nodeClone.internal.type === 'internal__accounts'
-  ) {
-    const shows = nodeClone.shows.filter(
+  if (node.id !== 'dummy' && node.internal.type === 'internal__accounts') {
+    const shows = node.shows.filter(
       show => show.cover !== null || show.cover !== undefined
     );
 
@@ -131,7 +127,7 @@ exports.onCreateNode = async ({
               `fileNode for fluid cover ${fileNode.id} created successfully ${show.slug}`
             );
             // eslint-disable-next-line no-param-reassign
-            nodeClone.shows[index].featuredImg___NODE = fileNode.id;
+            node.shows[index].featuredImg___NODE = fileNode.id;
           }
         })
         .catch(error => {
@@ -139,12 +135,10 @@ exports.onCreateNode = async ({
         });
     });
 
-    if (
-      nodeClone.structure !== undefined &&
-      nodeClone.structure.homePage !== undefined
-    ) {
-      nodeClone.structure.homePage = await createImgFluidElement(
-        nodeClone.structure.homePage,
+    if (node.structure !== undefined && node.structure.homePage !== undefined) {
+      // eslint-disable-next-line no-param-reassign
+      node.structure.homePage = await createImgFluidElement(
+        node.structure.homePage,
         createNode,
         store,
         cache,
