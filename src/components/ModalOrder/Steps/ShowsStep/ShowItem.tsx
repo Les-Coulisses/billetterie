@@ -10,6 +10,8 @@ interface ShowsItemProps {
 
 export default function ShowsItem({ show }: ShowsItemProps) {
   const [order, setOrder, activeStep, setActiveStep] = useOrderContext();
+  console.log('charge ShowItem');
+  console.log('ShowItem, show', show);
 
   const handleOnClick = () => {
     setOrder({ ...order, show: show });
