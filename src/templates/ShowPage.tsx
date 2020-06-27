@@ -8,7 +8,7 @@ type ShowPageProps = {
 };
 
 const ShowPage = ({ pageContext, data }: ShowPageProps) => {
-  const { childImageSharp: image } = data.internalAccounts.shows
+  const image = data.internalAccounts.shows
     .filter((show: any) => show.slug === pageContext.slug)
     .shift().featuredCover;
 
@@ -28,7 +28,7 @@ const ShowPage = ({ pageContext, data }: ShowPageProps) => {
         <Img
           durationFadeIn={1000}
           draggable={false}
-          fluid={image.fluid}
+          fluid={image.childImageSharp.fluid}
           style={{ width: 600 }}
         />
       )}
