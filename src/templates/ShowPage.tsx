@@ -8,9 +8,9 @@ type ShowPageProps = {
 };
 
 const ShowPage = ({ pageContext, data }: ShowPageProps) => {
-  const { fluid: coverFluid } = data.internalAccounts.shows
+  const { childImageSharp: image } = data.internalAccounts.shows
     .filter((show: any) => show.slug === pageContext.slug)
-    .shift().featuredCover.childImageSharp;
+    .shift().featuredCover;
 
   return (
     <div
@@ -24,12 +24,15 @@ const ShowPage = ({ pageContext, data }: ShowPageProps) => {
         alignItems: 'center'
       }}
     >
-      <Img
-        durationFadeIn={1000}
-        draggable={false}
-        fluid={coverFluid}
-        style={{ width: 600 }}
-      />
+      {image !== null && (
+        <Img
+          durationFadeIn={1000}
+          draggable={false}
+          fluid={image.fluid}
+          style={{ width: 600 }}
+        />
+      )}
+
       {pageContext.title}
     </div>
   );
