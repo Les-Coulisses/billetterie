@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
 const path = require('path');
 
@@ -55,6 +56,7 @@ const createImgFluidNode = async (
     store
   });
 
+  console.info(`charge file ${file.url} in node ${fluidNode.id}`);
   return fluidNode.id;
 };
 
@@ -106,7 +108,7 @@ const createImgFluidShow = async (
   createNode,
   createNodeId
 ) => {
-  const fileNodeId = createImgFluidNode(
+  const fileNodeId = await createImgFluidNode(
     { url: show.cover, id: show.id },
     store,
     cache,
