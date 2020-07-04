@@ -3,8 +3,8 @@ import { graphql } from 'gatsby';
 import Img from 'gatsby-image';
 
 type ShowPageProps = {
-  pageContext: any;
-  data: any;
+  pageContext: any,
+  data: any
 };
 
 const ShowPage = ({ pageContext, data }: ShowPageProps) => {
