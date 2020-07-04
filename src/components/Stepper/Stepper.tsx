@@ -9,8 +9,8 @@ import {
 import '../scss/stepper.scss';
 import { StepperProps, Step } from 'components/types';
 
-export default function Stepper(props: StepperProps) {
-  const steps: Step[] = props.children;
+export default function Stepper({ setActiveStep, ...muiProps }: StepperProps) {
+  const steps: Step[] = muiProps.children;
   const getStepContent = (index: number): React.ReactElement | string => {
     if (index < 0 || index >= steps.length) {
       return "Erreur, cette étape n'existe pas";
@@ -20,12 +20,12 @@ export default function Stepper(props: StepperProps) {
 
   return (
     <>
-      <MuiStepper className='CoulissesStepper ' {...props}>
+      <MuiStepper className='CoulissesStepper ' {...muiProps}>
         {steps.map((stepItem, index) => (
           <MuiStep key={index}>
             <MuiStepButton
               onClick={() => {
-                props.setActiveStep(index);
+                setActiveStep(index);
               }}
               disabled={stepItem.disabled}
             >
@@ -35,7 +35,7 @@ export default function Stepper(props: StepperProps) {
         ))}
       </MuiStepper>
       <div>
-        <div>{getStepContent(props.activeStep)}</div>
+        <div>{getStepContent(muiProps.activeStep)}</div>
       </div>
     </>
   );

@@ -99,6 +99,7 @@ export default function ModalOrder({ opened, close }: ModalProps) {
     close();
   };
 
+  console.log(data);
   return (
     <Dialog
       fullScreen
