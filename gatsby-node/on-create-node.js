@@ -57,13 +57,13 @@ const createImgFluidElement = async ({
 }) => {
   if (Array.isArray(element.options.files)) {
     element.options.files.forEach(async (file, index) => {
-      const fileNodeId = await createImgFluidNode(
-        file,
-        store,
-        cache,
-        createNode,
-        createNodeId
-      );
+      const fileNodeId = await createImgFluidNode({
+        file: file,
+        store: store,
+        cache: cache,
+        createNode: createNode,
+        createNodeId: createNodeId
+      });
       // if the file was created, attach the new node to the parent node
       if (fileNodeId) {
         // eslint-disable-next-line no-param-reassign
@@ -76,13 +76,13 @@ const createImgFluidElement = async ({
 
   if (Array.isArray(element.alternative_children)) {
     element.alternative_children.forEach(async child => {
-      await createImgFluidElement(
-        child,
-        createNode,
-        store,
-        cache,
-        createNodeId
-      );
+      await createImgFluidElement({
+        child: child,
+        createNode: createNode,
+        store: store,
+        cache: cache,
+        createNodeId: createNodeId
+      });
     });
   }
 
