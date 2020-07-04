@@ -40,6 +40,7 @@ const createShowPage = async ({
             `fileNode for fluid cover ${fileNode.id} created successfully ${show.slug}`
           );
           nodeClone[index].featuredImg___NODE = fileNode.id;
+          console.log(nodeClone[index]);
         }
       })
       .catch(error =>
