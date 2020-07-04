@@ -1,30 +1,60 @@
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
 
-const createImgFluidNode = async (
+const createImgFluidNode = async ({
   file,
   store,
   cache,
   createNode,
   createNodeId
-) => {
+}) => {
   console.info('start create fluid image', file.url);
   return createRemoteFileNode({
     url: file.url,
     parentNodeId: file.id,
-    createNode,
-    createNodeId,
-    cache,
-    store
+    createNode: createNode,
+    createNodeId: createNodeId,
+    cache: cache,
+    store: store
   });
 };
 
-const createImgFluidElement = async (
+const createShowPage = async ({
+  nodeClone,
+  store,
+  cache,
+  createNode,
+  createNodeId
+}) => {
+  await nodeClone.forEach(async (show, index) => {
+    createImgFluidNode({
+      file: { url: show.cover, id: show.id },
+      store: store,
+      cache: cache,
+      createNode: createNode,
+      createNodeId: createNodeId
+    })
+      .then(fileNode => {
+        // if the file was created, attach the new node to the parent node
+        if (fileNode) {
+          console.info(
+            `fileNode for fluid cover ${fileNode.id} created successfully ${show.slug}`
+          );
+          nodeClone[index].featuredImg___NODE = fileNode.id;
+        }
+      })
+      .catch(error =>
+        console.error(`failed for fluid cover ${show.slug}`, error)
+      );
+  });
+};
+
+const createImgFluidElement = async ({
   element,
   createNode,
   store,
   cache,
   createNodeId
-) => {
+}) => {
   if (Array.isArray(element.options.files)) {
     element.options.files.forEach(async (file, index) => {
       const fileNodeId = await createImgFluidNode(
@@ -64,55 +94,39 @@ module.exports = async ({
   actions: { createNode },
   store,
   cache,
-  createNodeId,
-  create
+  createNodeId
 }) => {
   const nodeClone = node;
-  // For all MarkdownRemark nodes that have a featured image url, call createRemoteFileNode
-  if (
+
+  const isInternalAccount =
     nodeClone.id !== 'dummy' &&
-    nodeClone.internal.type === 'internal__accounts'
-  ) {
-    const shows = nodeClone.shows.filter(
+    nodeClone.internal.type === 'internal__accounts';
+
+  if (isInternalAccount) {
+    const filteredNodeClone = nodeClone.shows.filter(
       show => show.cover !== null || show.cover !== undefined
     );
 
-    await shows.forEach(async (show, index) => {
-      createImgFluidNode(
-        { url: show.cover, id: show.id },
-        store,
-        cache,
-        createNode,
-        createNodeId
-      )
-        .then(fileNode => {
-          // if the file was created, attach the new node to the parent node
-          if (fileNode) {
-            console.info(
-              `fileNode for fluid cover ${fileNode.id} created successfully ${show.slug}`
-            );
-            // eslint-disable-next-line no-param-reassign
-            node.shows[index].featuredImg___NODE = fileNode.id;
-          }
-        })
-        .catch(error => {
-          console.error(`failed for fluid cover ${show.slug}`, error);
-        });
+    createShowPage({
+      nodeClone: filteredNodeClone,
+      createNode: createNode,
+      store: store,
+      cache: cache,
+      createNodeId: createNodeId
     });
+  }
 
-    if (
-      nodeClone.structure !== undefined &&
-      nodeClone.structure.homePage !== undefined
-    ) {
-      nodeClone.structure.homePage = await createImgFluidElement(
-        nodeClone.structure.homePage,
-        createNode,
-        store,
-        cache,
-        createNodeId
-      );
-    } else {
-      console.warn('No correct structure detected, no image to charge');
-    }
+  const isStructure =
+    nodeClone.structure !== undefined &&
+    nodeClone.structure.homePage !== undefined;
+
+  if (isStructure) {
+    nodeClone.structure.homePage = await createImgFluidElement({
+      element: nodeClone.structure.homePage,
+      createNode: createNode,
+      store: store,
+      cache: cache,
+      createNodeId: createNodeId
+    });
   }
 };
