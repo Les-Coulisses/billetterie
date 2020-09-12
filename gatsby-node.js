@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable linebreak-style */
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
 const path = require('path');

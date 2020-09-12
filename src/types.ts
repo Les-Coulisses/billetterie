@@ -67,6 +67,11 @@ export type ShowDto = {
   performances: PerformanceDto[];
 };
 
+export type AccountDto = {
+  id?: number;
+  shows: ShowDto[];
+};
+
 export type PlaceDto = {
   name?: string;
   firstName?: string;
@@ -81,11 +86,7 @@ export type OrderDto = {
   show?: ShowDto;
 };
 
-export interface OrderStepProps {
-  goNext: () => void;
-}
-
 export interface ModalProps {
-  opened?: boolean;
+  opened: boolean;
   close: () => void;
 }
