@@ -1,4 +1,4 @@
-const API_URL = 'http://les-coulisses.touchard.bzh/api';
+const API_URL = 'api-url';
 module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
