@@ -95,8 +95,6 @@ export default function ModalOrder({ opened, close }: ModalProps) {
     show => getPerformances(show).length > 0
   );
 
-  console.log('debug render modal show', shows);
-
   const handleClose = () => {
     close();
   };
