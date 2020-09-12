@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
-import ModalOrder from './ModalOrder/ModalOrder';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
-import { OrderDto } from '../types';
 import LinkOrder from './ModalOrder/LinkOrder';
 
 type NavBarCssProperties = {
