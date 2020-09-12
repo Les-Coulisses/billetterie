@@ -8,9 +8,9 @@ type ShowPageProps = {
 };
 
 const ShowPage = ({ pageContext, data }: ShowPageProps) => {
-  const {
-    fluid: coverFluid
-  } = data.internalShows.featuredCover.childImageSharp;
+  const { fluid: coverFluid } = data.internalAccounts.shows
+    .filter((show: any) => show.slug === pageContext.slug)
+    .shift().featuredCover.childImageSharp;
 
   return (
     <div
@@ -38,12 +38,15 @@ const ShowPage = ({ pageContext, data }: ShowPageProps) => {
 export default ShowPage;
 
 export const query = graphql`
-  query PageBySlug($slug: String!) {
-    internalShows(slug: { eq: $slug }) {
-      featuredCover {
-        childImageSharp {
-          fluid(maxWidth: 1000) {
-            ...GatsbyImageSharpFluid
+  query PageBySlug($accountId: String!) {
+    internalAccounts(id: { eq: $accountId }) {
+      shows {
+        slug
+        featuredCover {
+          childImageSharp {
+            fluid(maxWidth: 1000) {
+              ...GatsbyImageSharpFluid
+            }
           }
         }
       }

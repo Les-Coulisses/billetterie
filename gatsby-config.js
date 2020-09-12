@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const apiUrl = 'http://les-coulisses.touchard.bzh/api';
 module.exports = {
   plugins: [
@@ -44,7 +45,7 @@ module.exports = {
           'Content-Type': 'application/json'
         },
         typePrefix: 'internal__',
-        name: 'shows',
+        name: 'accounts',
         verboseOutput: true
       }
     }
