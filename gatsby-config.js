@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const API_URL = 'http://les-coulisses.touchard.bzh/api';
 module.exports = {
   plugins: [

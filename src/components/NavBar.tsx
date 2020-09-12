@@ -2,7 +2,6 @@ import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
-import LinkOrder from './ModalOrder/LinkOrder';
 
 type NavBarCssProperties = {
   navbar: CSSProperties;
@@ -84,7 +83,6 @@ const NavBar = () => {
         <Link to='/#' style={styles.link}>
           Contact
         </Link>
-        <LinkOrder style={styles.link} />
       </div>
       <div style={styles.verticalDivider} />
       <div style={styles.divider} />
