@@ -48,6 +48,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "prebuild": "gatsby clean",
     "build": "gatsby build",
     "predevelop": "gatsby clean",
     "develop": "gatsby develop",
