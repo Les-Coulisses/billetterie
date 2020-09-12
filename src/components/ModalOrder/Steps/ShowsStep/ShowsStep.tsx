@@ -1,5 +1,11 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import {
+  makeStyles,
+  List,
+  ListItem,
+  ListItemText,
+  Divider
+} from '@material-ui/core';
 import { ShowDto } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
 import { getPerformances, getCategories } from '../../../../utils';

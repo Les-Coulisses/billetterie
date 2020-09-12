@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import Modal from '@material-ui/core/Modal';
+import Fade from '@material-ui/core/Fade';
+import { TextField, Button } from '@material-ui/core';
 import { PriceDto, ModalProps } from '../../../../types';
 import { useOrderContext } from '../../../../hooks/OrderContext';
-import ButtonPrimary from '../../../Buttons/ButtonPrimary';
-import Dialog from '../../../Dialog/Dialog';
-import ButtonSecondary from '../../../Buttons/ButtonSecondary';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -47,60 +46,62 @@ export default function ModalInfosPlace({ opened, close }: ModalProps) {
     price: undefined
   });
   const body = (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        place.price = order.price;
-        setOrder({ ...order, places: [...order.places, place] });
-        setPlace({
-          name: '',
-          firstName: '',
-          price: order.price
-        });
-        close();
-      }}
-    >
-      <TextField
-        id='place-firstname'
-        label='Prénom'
-        variant='outlined'
-        className={classes.textField}
-        value={place.firstName}
-        required={true}
-        onChange={event => {
-          setPlace({ ...place, firstName: event.target.value });
+    <div className={classes.paper}>
+      <form
+        onSubmit={event => {
+          event.preventDefault();
+          place.price = order.price;
+          setOrder({ ...order, places: [...order.places, place] });
+          setPlace({
+            name: '',
+            firstName: '',
+            price: order.price
+          });
+          close();
         }}
-      />
-      <TextField
-        id='place-name'
-        label='Nom'
-        variant='outlined'
-        className={classes.textField}
-        value={place.name}
-        required={true}
-        onChange={event => {
-          setPlace({ ...place, name: event.target.value });
-        }}
-      />
-      <div className={classes.submitWrapper}>
-        <ButtonSecondary onClick={close}>Annuler</ButtonSecondary>
-        <ButtonPrimary type='submit'>Ajouter la place</ButtonPrimary>
-      </div>
-    </form>
+      >
+        <TextField
+          id='place-firstname'
+          label='Prénom'
+          variant='outlined'
+          className={classes.textField}
+          value={place.firstName}
+          required={true}
+          onChange={event => {
+            setPlace({ ...place, firstName: event.target.value });
+          }}
+        />
+        <TextField
+          id='place-name'
+          label='Nom'
+          variant='outlined'
+          className={classes.textField}
+          value={place.name}
+          required={true}
+          onChange={event => {
+            setPlace({ ...place, name: event.target.value });
+          }}
+        />
+        <div className={classes.submitWrapper}>
+          <Button type='submit' variant='contained' color='primary'>
+            Ajouter la place
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 
   return (
     <>
-      <Dialog
+      <Modal
         open={opened || false}
-        rounded={true}
         onClose={close}
         className={classes.modal}
         aria-labelledby='simple-modal-title'
         aria-describedby='simple-modal-description'
       >
         {body}
-      </Dialog>
+      </Modal>
     </>
   );
 }
