@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
 const path = require('path');
 
@@ -54,6 +55,13 @@ const createImgFluidNode = async (
     cache,
     store
   });
+
+  console.debug('NEW IMAGE FROM REMOTE CREATED');
+  console.debug('node internal.description', fluidNode.internal.description);
+  console.debug('node image local absolute path', fluidNode.absolutePath);
+  console.debug('node image local relative path', fluidNode.relativePath);
+  console.debug('node image size', fluidNode.prettySize);
+  console.debug('node image remote original url', fluidNode.url);
 
   return fluidNode.id;
 };
@@ -147,9 +155,7 @@ exports.onCreateNode = async ({
         nodeClone.shows[index].featuredImg___NODE = fileNodeId;
 
         // eslint-disable-next-line no-console
-        console.info(
-          `charge cover ${fileNodeId} for show ${show.id} ${show.slug}`
-        );
+        console.info(`charge cover ${fileNodeId} for show ${show.slug}`);
       }
     });
 
